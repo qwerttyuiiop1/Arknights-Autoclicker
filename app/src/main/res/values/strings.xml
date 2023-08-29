@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Arknights Autoclicker</string>
+    <string name="foreground_desc"> Arknights Autoclicker is running…</string>
+    <string name="foreground_title">@string/app_name</string>
+
+    <string name="close">Close</string>
+    <string name="open_bubble">Open Menu</string>
+    <string name="take_screenshot">Take Screenshot</string>
+    <string name="log_text">Log Text (DEBUG ONLY)</string>
+    <string name="pause">Pause</string>
+    <string name="auto_battle">Auto Battle</string>
+
+    <string name="cleaning_resources">Cleaning up resources…</string>
+    <string name="success_close">Successfully closed!</string>
+    <string name="confirm_exit">Are you sure you want to exit?</string>
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
+    <string name="recruit">Recruitment\n</string>
+    <string name="continuous_recruit">Expedite Recruitment</string>
+
+</resources>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:gravity="center"
+    android:layout_width="@dimen/task_item_width"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/task_icon"
+        android:layout_width="@dimen/task_ic_size"
+        android:layout_height="@dimen/task_ic_size"
+        android:layout_centerHorizontal="true"
+        tools:src="@drawable/ic_pause"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/task_name"
+        android:layout_width="@dimen/task_text_width"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/task_icon"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        tools:text="Pausee" />
+</RelativeLayout>
