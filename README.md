@@ -18,9 +18,21 @@ Accessibility:
 </div>
 
 
-
 ## Features
 
+Autobattle: Start in this screen or any of the battle screens
+![1689347487821](https://github.com/qwerttyuiiop1/Arknights-Autoclicker/assets/64955571/3d2f6c5c-a779-493e-ad3a-4dbf51008c0d)
 
+Recruitment / Expedite Recruitment: Start in this screen or any of the recruitment screens
+![1692795550423](https://github.com/qwerttyuiiop1/Arknights-Autoclicker/assets/64955571/4201ac2d-cb9c-4b95-8059-1d1ad5e64251)
 
 ## TODO
+- [ ] remove click on overlay
+- [ ] add support for screen sizes other than 2400 x 1080
+- [ ] add support for split screen
+- [ ] base autoclicker
+
+## Credits
+* ML kit: https://developers.google.com/ml-kit/vision/text-recognition/android
+* Floating Bubble View: https://github.com/TorryDo/Floating-Bubble-View
+* Flexbox Layout: https://github.com/google/flexbox-layout
