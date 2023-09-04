@@ -7,10 +7,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 typealias ResList<T> = List<MyResult.Success<out T>>
-fun <T> MyResult.Success<ResList<T>>.flatten() =
-    data.map{ it.data }
-fun <T> MyResult<ResList<T>>.flatten() =
-    (this as? MyResult.Success)?.flatten()
+fun <T> ResList<T>.flatten() = map { it.data }
 /**
  * wrapper Instance running multiple instances
  * concurrently in a single scope

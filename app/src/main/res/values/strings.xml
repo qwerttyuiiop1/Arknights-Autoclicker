@@ -17,5 +17,6 @@
     <string name="cancel">Cancel</string>
     <string name="recruit">Recruitment\n</string>
     <string name="continuous_recruit">Expedite Recruitment</string>
+    <string name="base">Base</string>
 
 </resources>

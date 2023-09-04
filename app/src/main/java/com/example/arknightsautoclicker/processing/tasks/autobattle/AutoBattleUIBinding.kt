@@ -3,14 +3,14 @@ package com.example.arknightsautoclicker.processing.tasks.autobattle
 import android.graphics.Rect
 import com.example.arknightsautoclicker.processing.components.TextArea
 import com.example.arknightsautoclicker.processing.components.TextButton
-import com.example.arknightsautoclicker.processing.components.UIBinding
+import com.example.arknightsautoclicker.processing.components.UIGroup
 import com.example.arknightsautoclicker.processing.io.Clicker
 import com.example.arknightsautoclicker.processing.io.TextRecognizer
 
 class AutoBattleUIBinding(
     val clicker: Clicker,
     val recognizer: TextRecognizer,
-): UIBinding {
+): UIGroup {
     val startBtn = TextButton(
         Rect(
             2038, 960, 2400, 1080

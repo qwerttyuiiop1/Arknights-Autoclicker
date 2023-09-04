@@ -18,19 +18,8 @@ private class ExpediteRecruitmentInstance(
             if (inRecruitMenu()) {
                 for (btn in menu.expediteBtns) {
                     if (btn.matchesLabel(tick)) {
-                        val confirm = other.confirmExpediteBtn
-                        var i = 0
-                        while (btn.matchesLabel(tick)) {
-                            if (i++ % 10 == 0)
-                                btn.click()
-                            awaitTick()
-                        }
-                        i=0
-                        while (confirm.matchesLabel(tick)) {
-                            if (i++ % 10 == 0)
-                                confirm.click()
-                            awaitTick()
-                        }
+                        join(ClickInst(btn, 10))
+                        join(ClickInst(other.confirmExpediteBtn, 10))
                     }
                 }
             }

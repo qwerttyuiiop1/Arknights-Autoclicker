@@ -1,8 +1,5 @@
 @file:Suppress("unused")
-
 package com.example.arknightsautoclicker.processing.components
-
-import kotlin.math.sqrt
 
 // creating actual objects is expensive and looks ugly
 // especially for calculations repeated a lot of times
@@ -30,11 +27,14 @@ fun Pixel.rgba(): String {
     return rgb() + Integer.toHexString(this ushr 24).padStart(2, '0')
 }
 
-fun Pixel.pixDiff(p: Int): Double {
-    val a = this.a - p.a
+/**
+ * @return the square of the euclidean distance between two pixels
+ */
+fun Pixel.pixDiff(p: Pixel): Int {
     val r = this.r - p.r
     val g = this.g - p.g
     val b = this.b - p.b
-    val sum = a * a + r * r + g * g + b * b
-    return sqrt(sum.toDouble())
+    return r * r + g * g + b * b
 }
+fun Pixel.similarTo(p: Pixel, threshold: Int) =
+    this.pixDiff(p) <= threshold * threshold * 3

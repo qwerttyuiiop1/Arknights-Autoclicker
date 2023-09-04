@@ -1,3 +1,4 @@
+@file:Suppress("FunctionName")
 package com.example.arknightsautoclicker.processing.tasks.recruitment
 
 import android.graphics.Rect
@@ -13,10 +14,10 @@ import com.example.arknightsautoclicker.processing.io.TextRecognizer
 class RecruitmentUIBinding(
     val clicker: Clicker,
     val recognizer: TextRecognizer,
-) {
-    private inner class TagBtn(
+): UIGroup {
+    private fun TagBtn(
         x: Int, y: Int
-    ): TextButton(
+    ) = TextButton(
         Rect(x, y, x + 217, y + 70),
         clicker, recognizer,
         scale = 1f
@@ -56,7 +57,7 @@ class RecruitmentUIBinding(
             TagBtn(1303,540),
             TagBtn(803,648),
             TagBtn(1053,648),
-        ) as List<TextButton>
+        )
 
         // circle: 1645, 560, 1745, 660
         // 50 - 50 / sqrt(2) = 14.6446609407 ~ 15
@@ -84,35 +85,29 @@ class RecruitmentUIBinding(
         val timer = TimerGroup()
     }
 
-    private inner class RecruitArea(
+    private fun RecruitArea(
         x: Int, y: Int
-    ): TextButton(
+    ) = TextButton(
         Rect(x + 364, y + 215, x + 554, y + 265),
         clicker, recognizer,
         clickArea = Rect(x, y, x + 918, y + 371)
-    ) {
-        init { label = setOf("Recruit", "Now") }
-    }
+    ).apply { label = setOf("Recruit", "Now") }
 
-    private inner class CompleteBtn(
+    private fun CompleteBtn(
         x: Int, y: Int
-    ): TextButton(
+    ) = TextButton(
         Rect(x + 425, y + 280, x + 500, y + 325),
         clicker, recognizer,
         clickArea = Rect(x + 18, y + 251, x + 906, y + 348)
-    ) {
-        init { label = setOf("Hire") }
-    }
+    ).apply { label = setOf("Hire") }
 
-    private inner class ExpediteBtn(
+    private fun ExpediteBtn(
         x: Int, y: Int
-    ): TextButton(
+    ) = TextButton(
         Rect(x + 610, y + 280, x + 745, y + 325),
         clicker, recognizer,
         clickArea = Rect(x + 470, y + 247, x + 895, y + 345)
-    ) {
-        init { label = setOf("Expedite") }
-    }
+    ).apply { label = setOf("Expedite") }
 
     inner class RecruitMenuGroup: UIGroup {
         val label = TextArea(
@@ -125,21 +120,21 @@ class RecruitmentUIBinding(
             RecruitArea(266, 690),
             RecruitArea(1214, 273),
             RecruitArea(1214, 690),
-        ) as List<TextButton>
+        )
 
         val completeBtns = listOf(
             CompleteBtn(266, 273),
             CompleteBtn(266, 690),
             CompleteBtn(1214, 273),
             CompleteBtn(1214, 690),
-        ) as List<TextButton>
+        )
 
         val expediteBtns = listOf(
             ExpediteBtn(266, 273),
             ExpediteBtn(266, 690),
             ExpediteBtn(1214, 273),
             ExpediteBtn(1214, 690),
-        ) as List<TextButton>
+        )
     }
 
     inner class OtherGroup : UIGroup {

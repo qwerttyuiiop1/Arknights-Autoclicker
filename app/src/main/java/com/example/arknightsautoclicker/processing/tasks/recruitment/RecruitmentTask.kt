@@ -30,6 +30,7 @@ open class RecruitmentTask(
             while (!inRecruitMenu()) {
                 if (inRecruit())
                     recruit.cancelBtn.click()
+                // can be safely clicked even if not present
                 other.skipBtn.click()
                 awaitTick()
             }
@@ -37,12 +38,7 @@ open class RecruitmentTask(
         suspend fun completeRecruits() {
             navigateToRecruitMenu()
             for (btn in menu.completeBtns) {
-                var i=0
-                while (btn.matchesLabel(tick)) {
-                    if (i++ % 5 == 0)
-                        btn.click()
-                    awaitTick()
-                }
+                join(ClickInst(btn))
                 navigateToRecruitMenu()
             }
         }

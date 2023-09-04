@@ -7,6 +7,7 @@ import com.example.arknightsautoclicker.processing.exe.Instance
 import com.example.arknightsautoclicker.processing.exe.MyResult
 import com.example.arknightsautoclicker.processing.io.TextRecognizer
 import com.example.arknightsautoclicker.processing.ext.flattenString
+import kotlinx.coroutines.delay
 import java.util.regex.Pattern
 
 private class AutoBattleInstance (
@@ -30,10 +31,12 @@ private class AutoBattleInstance (
             var sanityCost = sanityMatcher.group().toInt()
             if (sanityCost < 0) sanityCost *= -1
 
-            if (totalSanity < sanityCost)
+            if (totalSanity < sanityCost) {
                 exit(MyResult.Success("Out of sanity"))
-            else
+            } else {
                 ui.startBtn.click()
+                delay(3 * 60) // delay 3 seconds for animation
+            }
             return true
         }
         return false

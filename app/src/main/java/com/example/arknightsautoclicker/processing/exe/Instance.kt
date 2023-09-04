@@ -36,7 +36,7 @@ abstract class Instance<T>: TaskInstance<T> {
      * run the task until it completes
      * on error, exit the task
      */
-    protected suspend fun <U> join(r: TaskInstance<U>): MyResult.Success<U> {
+    protected suspend fun <U> join(r: TaskInstance<U>): U {
         val res = tryJoin(r)
         if (res !is MyResult.Success) {
             exit(MyResult.Fail(
@@ -45,7 +45,7 @@ abstract class Instance<T>: TaskInstance<T> {
             ))
             throw IllegalStateException("task failed")
         }
-        return res
+        return res.data
     }
     protected suspend fun <U> tryJoin(r: TaskInstance<U>): MyResult<U> {
         try {

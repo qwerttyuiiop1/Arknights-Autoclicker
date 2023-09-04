@@ -9,7 +9,6 @@ android {
 
     defaultConfig {
         applicationId "com.example.arknightsautoclicker"
-        //minSdk 24 bubbles requires sdk 30
         minSdk 30
         targetSdk 33
         versionCode 1

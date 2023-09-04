@@ -2,24 +2,20 @@ package com.example.arknightsautoclicker.processing.tasks.recruitment
 
 import android.graphics.Bitmap
 import android.graphics.Color
-import android.util.Log
-import com.example.arknightsautoclicker.processing.components.ButtonType
-import com.example.arknightsautoclicker.processing.components.TextArea
+import com.example.arknightsautoclicker.processing.components.Button
 import com.example.arknightsautoclicker.processing.components.TextButton
 import com.example.arknightsautoclicker.processing.components.b
 import com.example.arknightsautoclicker.processing.components.g
-import com.example.arknightsautoclicker.processing.components.pixDiff
 import com.example.arknightsautoclicker.processing.components.r
+import com.example.arknightsautoclicker.processing.components.similarTo
 import com.example.arknightsautoclicker.processing.exe.Instance
 import com.example.arknightsautoclicker.processing.exe.MyResult
 import com.example.arknightsautoclicker.processing.exe.Promise
 import com.example.arknightsautoclicker.processing.exe.SimpleInstance
 import com.example.arknightsautoclicker.processing.exe.TaskInstance
-import com.example.arknightsautoclicker.processing.exe.flatten
 import com.example.arknightsautoclicker.processing.exe.multi
 import com.example.arknightsautoclicker.processing.ext.flattenString
 import com.example.arknightsautoclicker.processing.ext.norm
-import com.google.mlkit.vision.text.Text
 
 /**
  * test for concurrent analysis of tags; the original is slow
@@ -28,7 +24,7 @@ internal class RecruitPage(
     val ui: RecruitmentUIBinding,
     val analyzer: TagAnalyzer,
 ): Instance<Unit>() {
-    private fun ButtonType.isSelected(bit: Bitmap): Boolean {
+    private fun Button.isSelected(bit: Bitmap): Boolean {
         val rect = clickArea
         val p1 = bit.getPixel(rect.left + 5, rect.top + 5)
         val p2 = bit.getPixel(rect.left + 5, rect.bottom - 5)
@@ -42,20 +38,11 @@ internal class RecruitPage(
         val notSelected = 0x00313131
         val color = Color.argb(0, r, g, b)
 
-        if (notSelected.pixDiff(color) < 10)
-            return false
-        return true
+        return !color.similarTo(notSelected, 5)
     }
 
     val timer = ui.recruit.timer
     val recruit = ui.recruit
-
-    class TextInst<T : TextArea>(
-        val area: T
-    ): SimpleInstance<Pair<T, Text>>() {
-        override suspend fun run(tick: Bitmap) =
-            MyResult.Success(area to area.getText(tick))
-    }
 
     class TagCombInst(
         val btns: List<TextButton>,
@@ -67,7 +54,8 @@ internal class RecruitPage(
                 awaitTick()
                 val tagMap = join(
                     TaskInstance.multi(btns.map { TextInst(it) })
-                ).flatten().associate { (btn, text) ->
+                ).associate {
+                    val (btn, text) = it.data
                     text.flattenString("").norm to btn
                 }
                 val tags = tagMap.keys.toList()
@@ -181,18 +169,8 @@ internal class RecruitPage(
         val marker = recruit.tagBtns[0]
         val confirm = ui.other.confirmRefreshBtn
         join(TagSelectInst(marker, true))
-        var i=0
-        while (refresh.matchesLabel(tick)) {
-            if (i++ % 5 == 0)
-                refresh.click()
-            awaitTick()
-        }
-        i=0
-        while (confirm.matchesLabel(tick)) {
-            if (i++ % 5 == 0)
-                confirm.click()
-            awaitTick()
-        }
+        join(ClickInst(refresh))
+        join(ClickInst(confirm))
         while (marker.isSelected(tick))
             awaitTick()
     }
