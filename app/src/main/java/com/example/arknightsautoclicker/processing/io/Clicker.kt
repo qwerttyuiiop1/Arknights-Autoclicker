@@ -43,12 +43,15 @@ open class Clicker(
     open suspend fun click(r: Rect, duration: Long = CLICK_DURATION) = click(r.centerX(), r.centerY(), duration)
     suspend fun click(x: Int, y: Int, duration: Long = CLICK_DURATION) = click(x.toFloat(), y.toFloat(), duration)
     suspend fun click(x: Float, y: Float, duration: Long) {
-        lock.lock()
-        val path = Path()
-        path.moveTo(x, y)
-        val stroke = GestureDescription.StrokeDescription(path, 0, duration)
-        while (!doStroke(stroke)) { /* retry */ }
-        lock.unlock()
+        try {
+            lock.lock()
+            val path = Path()
+            path.moveTo(x, y)
+            val stroke = GestureDescription.StrokeDescription(path, 0, duration)
+            while (!doStroke(stroke)) { /* retry */ }
+        } finally {
+            lock.unlock()
+        }
     }
 
 
@@ -68,22 +71,26 @@ open class Clicker(
         duration: Long,
         hold: Long
     ) {
-        lock.lock()
-        val swipePath = Path()
-        swipePath.moveTo(x2, y2)
-        swipePath.lineTo(x1, y1)
-        val swipeStroke = GestureDescription
-            .StrokeDescription(swipePath, 0, duration, hold > 0)
-        doStroke(swipeStroke)
+        try {
+            lock.lock()
+            val swipePath = Path()
+            swipePath.moveTo(x2, y2)
+            swipePath.lineTo(x1, y1)
+            val swipeStroke = GestureDescription
+                .StrokeDescription(swipePath, 0, duration, hold > 0)
+            doStroke(swipeStroke)
 
-        if (hold > 0) {
-            delay(hold-1)
-            val holdPath = Path()
-            holdPath.moveTo(x2, y2)
-            val holdStroke = swipeStroke.continueStroke(holdPath, 0, 1, false)
-            doStroke(holdStroke) // a short click to cancel the hold (if not cancelled already)
+            if (hold > 0) {
+                delay(hold-1)
+                val holdPath = Path()
+                holdPath.moveTo(x2, y2)
+                val holdStroke = swipeStroke
+                    .continueStroke(holdPath, 0, 1, false)
+                doStroke(holdStroke) // a short click to cancel the hold (if not cancelled already)
+            }
+        } finally {
+            lock.unlock()
         }
-        lock.unlock()
     }
 
     open suspend fun swipeV(

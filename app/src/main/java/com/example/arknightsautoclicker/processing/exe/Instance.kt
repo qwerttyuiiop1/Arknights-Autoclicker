@@ -15,12 +15,13 @@ abstract class Instance<T>: TaskInstance<T> {
     protected val tick get() = _tick!!
     private var job: Job? = null
     private var scope: CoroutineScope? = null
+    private var isClosed = false
 
     protected abstract suspend fun run(): MyResult<T>
 
     override fun start(scope: CoroutineScope) {
-        if (job != null)
-            throw IllegalStateException("task has already started")
+        if (job != null) throw IllegalStateException("task has already started")
+        if (isClosed) throw IllegalStateException("task has already been closed")
         this.scope = scope
         job = scope.launch {
             try {
@@ -43,7 +44,7 @@ abstract class Instance<T>: TaskInstance<T> {
                 if (res is MyResult.Fail) res.error
                 else res
             ))
-            throw IllegalStateException("task failed")
+            throw IllegalStateException("should not reach here")
         }
         return res.data
     }
@@ -52,7 +53,7 @@ abstract class Instance<T>: TaskInstance<T> {
             r.start(scope!!)
             r.awaitResult()?.let { return it }
             while (true) {
-                r.nextTick(tick)
+                r.nextTick(tick) // reuse the first tick
                 r.awaitResult()?.let { return it }
                 awaitTick()
             }
@@ -69,8 +70,9 @@ abstract class Instance<T>: TaskInstance<T> {
      * block until the next tick is received
      */
     protected suspend fun awaitTick(): Bitmap {
+        if (isClosed) yield() // to prevent crash, since channels are closed
         resultChannel.send(null)
-        _tick = tickChannel.receive() // TODO: check if the channel is closed
+        _tick = tickChannel.receive()
         return tick
     }
 
@@ -79,16 +81,23 @@ abstract class Instance<T>: TaskInstance<T> {
      * then close the task and wait for it to complete
      */
     protected suspend fun exit(msg: MyResult<T>) {
-        scope!!.launch {
+        scope?.launch {
             resultChannel.send(msg)
             job?.cancelAndJoin()
             close()
-        }.join()
+        }?.join()
         yield()
     }
-    override fun close() {
-        job?.cancel()
+    protected open suspend fun onClose() {
+        job?.cancelAndJoin()
         resultChannel.close()
         tickChannel.close()
+        job = null
+        scope = null
+    }
+    override fun close() {
+        if (isClosed) return
+        isClosed = true
+        scope?.launch { onClose() }
     }
 }

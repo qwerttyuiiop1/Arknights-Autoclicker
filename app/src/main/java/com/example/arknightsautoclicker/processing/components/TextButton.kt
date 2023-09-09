@@ -11,7 +11,7 @@ interface TextButton: TextArea, Button {
             rect: Rect,
             recognizer: TextRecognizer,
             btn: Button,
-            scale: Float,
+            scale: Float = getDefaultScale(rect),
         ): TextButton = TextButtonImpl(rect, recognizer, btn, scale)
         operator fun invoke(
             rect: Rect,

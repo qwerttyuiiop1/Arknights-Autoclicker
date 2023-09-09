@@ -1,11 +1,17 @@
 @file:Suppress("FunctionName")
 package com.example.arknightsautoclicker.processing.tasks.recruitment
 
+import android.graphics.Bitmap
+import android.graphics.Color
 import android.graphics.Rect
 import com.example.arknightsautoclicker.processing.components.Button
 import com.example.arknightsautoclicker.processing.components.TextArea
 import com.example.arknightsautoclicker.processing.components.TextButton
 import com.example.arknightsautoclicker.processing.components.UIGroup
+import com.example.arknightsautoclicker.processing.components.b
+import com.example.arknightsautoclicker.processing.components.g
+import com.example.arknightsautoclicker.processing.components.r
+import com.example.arknightsautoclicker.processing.components.similarTo
 import com.example.arknightsautoclicker.processing.io.Clicker
 import com.example.arknightsautoclicker.processing.io.TextRecognizer
 
@@ -15,13 +21,28 @@ class RecruitmentUIBinding(
     val clicker: Clicker,
     val recognizer: TextRecognizer,
 ): UIGroup {
-    private fun TagBtn(
-        x: Int, y: Int
-    ) = TextButton(
-        Rect(x, y, x + 217, y + 70),
-        clicker, recognizer,
+    inner class TagButton(rect: Rect): TextButton by TextButton(
+        rect, clicker, recognizer,
         scale = 1f
-    )
+    ) {
+        constructor(x: Int, y: Int): this(Rect(x, y, x + 217, y + 70))
+        fun isSelected(bit: Bitmap): Boolean {
+            val rect = clickArea
+            val p1 = bit.getPixel(rect.left + 5, rect.top + 5)
+            val p2 = bit.getPixel(rect.left + 5, rect.bottom - 5)
+            val p3 = bit.getPixel(rect.right - 5, rect.top + 5)
+            val p4 = bit.getPixel(rect.right - 5, rect.bottom - 5)
+
+            val r = (p1.r + p2.r + p3.r + p4.r) / 4
+            val g = (p1.g + p2.g + p3.g + p4.g) / 4
+            val b = (p1.b + p2.b + p3.b + p4.b) / 4
+
+            val notSelected = 0x00313131
+            val color = Color.argb(0, r, g, b)
+
+            return !color.similarTo(notSelected, 5)
+        }
+    }
     inner class TimerGroup: UIGroup {
         val timerHours = TextArea(
             Rect(880, 290, 1000, 390),
@@ -52,11 +73,11 @@ class RecruitmentUIBinding(
     }
     inner class RecruitGroup: UIGroup {
         val tagBtns = listOf(
-            TagBtn(803,540),
-            TagBtn(1053,540),
-            TagBtn(1303,540),
-            TagBtn(803,648),
-            TagBtn(1053,648),
+            TagButton(803,540),
+            TagButton(1053,540),
+            TagButton(1303,540),
+            TagButton(803,648),
+            TagButton(1053,648),
         )
 
         // circle: 1645, 560, 1745, 660

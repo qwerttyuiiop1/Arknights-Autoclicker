@@ -46,9 +46,9 @@ fun Text.flatten(): List<Text.Element> {
 }
 
 fun Text.flattenString(
-    separator: String = ", "
+    sep: String = ", "
 ): String {
-    return flatten().joinToString(separator) { it.text }
+    return flatten().joinToString(sep) { it.text }
 }
 
 val String.norm: String

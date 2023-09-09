@@ -60,6 +60,9 @@ open class MultiInstance<T>(
 fun <T> TaskInstance.Companion.multi(
     tasks: List<TaskInstance<out T>>
 ) = MultiInstance(tasks)
+fun <T> TaskInstance.Companion.multi(
+    vararg tasks: TaskInstance<out T>
+) = multi(tasks.toList())
 
 /**
  * wrapper Instance running multiple instances one after another
@@ -68,6 +71,7 @@ open class ChainedInstance<T>(
     val tasks: List<TaskInstance<out T>>,
 ): Instance<ResList<T>>() {
     override suspend fun run(): MyResult<ResList<T>> {
+        awaitTick()
         val results = MutableList<MyResult<out T>?>(tasks.size) { null }
         tasks.forEachIndexed { i, it ->
             val res = tryJoin(it)
@@ -82,6 +86,9 @@ open class ChainedInstance<T>(
 fun <T> TaskInstance.Companion.chained(
     tasks: List<TaskInstance<out T>>
 ) = ChainedInstance(tasks)
+fun <T> TaskInstance.Companion.chained(
+    vararg tasks: TaskInstance<out T>
+) = chained(tasks.toList())
 
 abstract class SimpleInstance<T>: TaskInstance<T> {
     abstract suspend fun run(tick: Bitmap): MyResult<T>

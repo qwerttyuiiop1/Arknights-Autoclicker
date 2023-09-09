@@ -3,14 +3,17 @@ package com.example.arknightsautoclicker.processing.tasks.base
 import android.graphics.Bitmap
 import android.graphics.Rect
 import com.example.arknightsautoclicker.processing.components.SwipeArea
+import com.example.arknightsautoclicker.processing.components.UIElement
 import com.example.arknightsautoclicker.processing.components.similarTo
 import com.example.arknightsautoclicker.processing.exe.Instance
 import com.example.arknightsautoclicker.processing.exe.MyResult
+import com.example.arknightsautoclicker.processing.exe.TaskInstance
+import com.example.arknightsautoclicker.processing.exe.simple
 import com.example.arknightsautoclicker.processing.io.Clicker
 
 class OverviewScrollBar(
     clicker: Clicker
-) {
+): UIElement {
     companion object {
         // min scroll distance that can be detected
         const val MIN_SCROLL = 30
@@ -19,8 +22,8 @@ class OverviewScrollBar(
     val area = SwipeArea(
         clicker,
         Rect(1117, 122, 2314, 1080),
-        speed = 0.25f,
-        hold = 333
+        speed = 1f,
+        hold = 1000
     )
     // scroll position constants
     private val scrollTop = 122
@@ -77,8 +80,10 @@ class OverviewScrollBar(
         scrollbarTop = lo
     }
 
-    fun setup(screen: Bitmap) {
+    fun setup(screen: Bitmap) = TaskInstance.simple {
         var minBot = locateScrollBar(screen)
+        if (minBot == -1)
+            return@simple MyResult.Fail("Could not find scroll bar")
         updateScrollPos(screen, minBot)
         var bot = scrollBot
         while (minBot <= bot) {
@@ -95,13 +100,14 @@ class OverviewScrollBar(
         val scrollH = scrollBot - scrollTop + 1
         totalHeight = (scrollH * scrollScale).toInt()
         endPos = totalHeight - h
+        MyResult.Success(Unit)
     }
 
     fun isAtTop() = currPos in 0..pixErr
     fun isAtBottom() = (endPos - currPos) in 0..pixErr
 
     /**
-     * @return the actual number of pixels scrolled
+     * @return pixel difference between the target and current position
      */
     inner class ScrollInst(
         val target: Int = currPos
@@ -115,20 +121,16 @@ class OverviewScrollBar(
                 (diff > pixErr && !isAtBottom()) ||
                 (diff < -pixErr && !isAtTop())
             ) {
-                // if diff is too small, it will not scroll at all
-                // to scroll that amount, we scroll a larger amount
-                // then undo it in the next iteration
-                diff = if (diff in -MIN_SCROLL..MIN_SCROLL)
-                    if (diff > 0) MIN_SCROLL * 2 else -MIN_SCROLL * 2
+                diff = if (diff > 0)
+                    (diff + MIN_SCROLL).coerceAtMost(maxScroll)
                 else
-                    diff.coerceIn(-maxScroll, maxScroll)
-
+                    (diff - MIN_SCROLL).coerceAtLeast(-maxScroll)
                 area.swipeV(diff)
                 awaitTick()
                 updateScrollPos(tick)
                 diff = target - currPos
             }
-            return MyResult.Success(currPos - target)
+            return MyResult.Success(diff)
         }
     }
     fun scrollToTop() = ScrollInst(0)

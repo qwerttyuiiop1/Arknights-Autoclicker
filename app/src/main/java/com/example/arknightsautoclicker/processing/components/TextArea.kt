@@ -59,7 +59,7 @@ interface MTextArea: TextArea {
 open class MTextAreaImpl(
     override final val rect: Rect,
     override val recognizer: TextRecognizer,
-    override val scale: Float
+    override val scale: Float = getDefaultScale(rect)
 ): MTextArea, UIElement {
     private val orig = Rect(rect)
     protected val cropped = RecyclableBitmap(rect.width(), rect.height())
@@ -90,11 +90,11 @@ open class MTextAreaImpl(
     }
     override fun matchesLabel(text: Text): Boolean {
         val list = text.flatten()
-        return this.label!!.all { str ->
+        return this.label?.all { str ->
             list.any {
                 it.text.contains(str, ignoreCase = true)
             }
-        }
+        } ?: throw IllegalStateException("Label not set")
     }
     override fun setPos(x: Int, y: Int) = rect.offsetTo(x, y)
     override fun setRect(r: Rect) = rect.set(r)

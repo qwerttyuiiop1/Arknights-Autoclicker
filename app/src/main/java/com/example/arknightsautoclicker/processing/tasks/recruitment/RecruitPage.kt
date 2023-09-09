@@ -1,13 +1,7 @@
 package com.example.arknightsautoclicker.processing.tasks.recruitment
 
 import android.graphics.Bitmap
-import android.graphics.Color
-import com.example.arknightsautoclicker.processing.components.Button
 import com.example.arknightsautoclicker.processing.components.TextButton
-import com.example.arknightsautoclicker.processing.components.b
-import com.example.arknightsautoclicker.processing.components.g
-import com.example.arknightsautoclicker.processing.components.r
-import com.example.arknightsautoclicker.processing.components.similarTo
 import com.example.arknightsautoclicker.processing.exe.Instance
 import com.example.arknightsautoclicker.processing.exe.MyResult
 import com.example.arknightsautoclicker.processing.exe.Promise
@@ -24,22 +18,6 @@ internal class RecruitPage(
     val ui: RecruitmentUIBinding,
     val analyzer: TagAnalyzer,
 ): Instance<Unit>() {
-    private fun Button.isSelected(bit: Bitmap): Boolean {
-        val rect = clickArea
-        val p1 = bit.getPixel(rect.left + 5, rect.top + 5)
-        val p2 = bit.getPixel(rect.left + 5, rect.bottom - 5)
-        val p3 = bit.getPixel(rect.right - 5, rect.top + 5)
-        val p4 = bit.getPixel(rect.right - 5, rect.bottom - 5)
-
-        val r = (p1.r + p2.r + p3.r + p4.r) / 4
-        val g = (p1.g + p2.g + p3.g + p4.g) / 4
-        val b = (p1.b + p2.b + p3.b + p4.b) / 4
-
-        val notSelected = 0x00313131
-        val color = Color.argb(0, r, g, b)
-
-        return !color.similarTo(notSelected, 5)
-    }
 
     val timer = ui.recruit.timer
     val recruit = ui.recruit
@@ -79,7 +57,10 @@ internal class RecruitPage(
             return MyResult.Success(Unit)
         }
     }
-    inner class TagSelectInst(val tag: TextButton, val select: Boolean): Instance<Unit>() {
+    inner class TagSelectInst(
+        val tag: RecruitmentUIBinding.TagButton,
+        val select: Boolean
+    ): Instance<Unit>() {
         override suspend fun run(): MyResult<Unit> {
             awaitTick()
             var i=0
@@ -150,12 +131,11 @@ internal class RecruitPage(
     suspend fun getComb(): Pair<Int, List<TextButton>>? {
         val p1 = Promise<Pair<Int, List<TextButton>>>()
         val p2 = Promise<Boolean>()
-        val tasks = listOf(
+        join(TaskInstance.multi(
             TagCombInst(recruit.tagBtns, analyzer, p1),
             HasRefreshInst(recruit.refreshBtn, p2)
-        )
+        ))
 
-        join(TaskInstance.multi(tasks))
         val (rarity, tags) = p1.await()
         val refresh = p2.await()
 

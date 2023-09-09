@@ -12,12 +12,14 @@ import com.google.mlkit.vision.text.Text
 class OverviewIterator(
     val clicker: Clicker,
     val recognizer: TextRecognizer,
-    val each: (Int, Int, Text.TextBlock) -> TaskInstance<Unit>
+    val each: (Int, Int) -> TaskInstance<Unit>,
+    val filter: (Text.TextBlock) -> Boolean
 ): Instance<Unit>() {
     val scrollBar = OverviewScrollBar(clicker)
     val roomLabels = MTextArea(
         Rect(1117, 122, 1368, 944),
-        recognizer
+        recognizer,
+        scale = 0.75f
     )
     suspend fun update() {
         awaitTick()
@@ -29,9 +31,11 @@ class OverviewIterator(
     }
 
     suspend fun iterateRooms() {
-        do {
+        var offset = 0
+        while (true) {
             roomLabels.reset()
             val rect = roomLabels.rect
+            rect.top += offset
             val labels = roomLabels.getText(tick)
             for (block in labels.textBlocks) {
                 val pos = block.boundingBox ?: continue
@@ -39,22 +43,23 @@ class OverviewIterator(
                 // reverse of crop -> scale -> crop
                 val rawX = pos.left / roomLabels.scale + rect.left
                 val rawY = pos.top / roomLabels.scale + rect.top
-                join(each(
-                    rawX.toInt(),
-                    rawY.toInt(),
-                    block
-                ))
+                if (filter(block))
+                    join(each(
+                        rawX.toInt(),
+                        rawY.toInt()
+                    ))
             }
             val last = labels.textBlocks.lastOrNull()?.boundingBox
                 ?: break
-            val dist = (last.bottom / roomLabels.scale - rect.top).toInt()
-            scrollDown(dist)
-        } while (!scrollBar.isAtBottom())
+            if (scrollBar.isAtBottom()) break
+            val dist = (last.bottom / roomLabels.scale).toInt()
+            offset = scrollDown(dist + offset)
+        }
     }
 
     override suspend fun run(): MyResult<Unit> {
         awaitTick()
-        scrollBar.setup(tick)
+        join(scrollBar.setup(tick))
         join(scrollBar.scrollToTop())
         iterateRooms()
         return MyResult.Success(Unit)

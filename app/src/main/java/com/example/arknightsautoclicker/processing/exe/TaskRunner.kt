@@ -11,13 +11,13 @@ import kotlinx.coroutines.CoroutineScope
 interface TaskInstance<T> {
     companion object {}
     /**
-     * send the next tick to the task (one at a time)
+     * send the next tick to the task (blocking until the tick is received)
      * can only be called if the task is running
      */
     suspend fun nextTick(tick: Bitmap)
 
     /**
-     * await the result of the task (one at a time)
+     * await the result of the task (blocking until the result is sent)
      * can only be called if the task is running
      * @return null if the task is still running and requires a tick
      * @return the result of the task if it is complete
