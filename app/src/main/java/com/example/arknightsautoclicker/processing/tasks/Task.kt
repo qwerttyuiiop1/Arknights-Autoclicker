@@ -21,4 +21,5 @@ enum class Task(
     RECRUIT(R.drawable.ic_recruit, R.string.recruit, true),
     CONTINUOUS_RECRUIT(R.drawable.ic_cont_recruit, R.string.continuous_recruit, true),
     BASE(R.drawable.ic_base, R.string.base, true),
+    GITHUB(R.drawable.ic_github, R.string.github, false),
 }

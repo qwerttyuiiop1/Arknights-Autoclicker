@@ -1,6 +1,7 @@
 package com.example.arknightsautoclicker.processing.tasks
 
 import android.content.Context
+import android.content.Intent
 import com.example.arknightsautoclicker.processing.exe.TaskExecutor
 import com.example.arknightsautoclicker.processing.exe.TaskResult
 import com.example.arknightsautoclicker.processing.io.Clicker
@@ -22,6 +23,9 @@ class TaskHandler(
     private val ctx: Context,
     private val clicker: Clicker
 ) {
+    companion object {
+        const val GITHUB_URL = "https://github.com/qwerttyuiiop1/Arknights-Autoclicker/"
+    }
     private val executor = TaskExecutor(screenshot)
     private val recognizer = TextRecognizer()
     private var currentTask = Task.NONE
@@ -62,6 +66,12 @@ class TaskHandler(
             Task.NONE -> {}
             Task.SCREENSHOT -> screenshot.latestBitmap?.let {
                 ImageDump(ctx).dump(it)
+            }
+            Task.GITHUB -> {
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.data = android.net.Uri.parse(GITHUB_URL)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                ctx.startActivity(intent)
             }
             Task.BATTLE -> executor.runner =
                 AutoBattleTask(clicker, recognizer)
