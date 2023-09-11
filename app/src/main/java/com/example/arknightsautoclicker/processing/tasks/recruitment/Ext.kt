@@ -17,23 +17,29 @@ class TextInst<T : TextArea>(
         MyResult.Success(area to area.getText(tick))
 }
 
+/**
+ * repeatedly clicks a button while its label is recognized
+ *
+ * @return 0 if the label is not recognized
+ * @return the total number of ticks if the label is recognized
+ */
 class ClickInst(
-    val area: TextArea,
+    val label: TextArea,
     val btn: Button,
     val every: Int = 5,
-): Instance<Unit>() {
+): Instance<Int>() {
     constructor(
         btn: TextButton,
         every: Int = 5,
     ): this(btn, btn, every)
-    override suspend fun run(): MyResult<Unit> {
+    override suspend fun run(): MyResult<Int> {
         awaitTick()
-        var i=0
-        while (area.matchesLabel(tick)) {
+        var i = 0
+        while (label.matchesLabel(tick)) {
             if (i++ % every == 0)
                 btn.click()
             awaitTick()
         }
-        return MyResult.Success(Unit)
+        return MyResult.Success(i)
     }
 }

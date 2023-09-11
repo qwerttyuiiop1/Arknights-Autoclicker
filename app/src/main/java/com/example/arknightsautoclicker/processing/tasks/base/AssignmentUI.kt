@@ -60,8 +60,8 @@ class AssignmentUI(
                 morale.left + (morale.width() * percent).toInt(),
                 morale.centerY()
             )
-            return pix.similarTo(color, 5)
-                    || pix.similarTo(tinted, 5)
+            return pix.similarTo(color, 10)
+                    || pix.similarTo(tinted, 10)
         }
     }
     // 10 total slots

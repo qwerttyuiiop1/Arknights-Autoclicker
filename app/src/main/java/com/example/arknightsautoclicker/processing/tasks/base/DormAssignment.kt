@@ -71,7 +71,9 @@ class DormAssignment(
         val select = ArrayList<SelectInst>()
         for (i in selected.size until 5 + deselect.size) {
             val slot = assignment.slots[i]
-            if (slot.moraleAbove(tick, 0.5f)) break
+            if (
+                slot.moraleAbove(tick, 0.5f)
+            ) break
             select.add(SelectInst(slot, true))
         }
         join(TaskInstance.multi(select))

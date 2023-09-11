@@ -39,15 +39,16 @@ class OverviewIterator(
             val labels = roomLabels.getText(tick)
             for (block in labels.textBlocks) {
                 val pos = block.boundingBox ?: continue
-                update()
-                // reverse of crop -> scale -> crop
-                val rawX = pos.left / roomLabels.scale + rect.left
-                val rawY = pos.top / roomLabels.scale + rect.top
-                if (filter(block))
+                if (filter(block)) {
+                    update()
+                    // reverse of crop -> scale -> crop
+                    val rawX = pos.left / roomLabels.scale + rect.left
+                    val rawY = pos.top / roomLabels.scale + rect.top
                     join(each(
                         rawX.toInt(),
                         rawY.toInt()
                     ))
+                }
             }
             val last = labels.textBlocks.lastOrNull()?.boundingBox
                 ?: break

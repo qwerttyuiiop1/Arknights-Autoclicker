@@ -8,7 +8,7 @@ import com.example.arknightsautoclicker.processing.io.Screenshot
 import com.example.arknightsautoclicker.processing.tasks.autobattle.AutoBattleTask
 import com.example.arknightsautoclicker.processing.io.ImageDump
 import com.example.arknightsautoclicker.processing.io.TextRecognizer
-import com.example.arknightsautoclicker.processing.tasks.base.BaseTaskRunner
+import com.example.arknightsautoclicker.processing.tasks.base.BaseTask
 import com.example.arknightsautoclicker.processing.tasks.recruitment.ContinuousRecruitmentTask
 import com.example.arknightsautoclicker.processing.tasks.recruitment.RecruitmentTask
 import com.example.arknightsautoclicker.processing.tasks.recruitment.TagAnalyzer
@@ -70,7 +70,7 @@ class TaskHandler(
             Task.CONTINUOUS_RECRUIT -> executor.runner =
                 ContinuousRecruitmentTask(clicker, recognizer, TagAnalyzer())
             Task.BASE -> executor.runner =
-                BaseTaskRunner(clicker, recognizer)
+                BaseTask(clicker, recognizer)
             else -> throw IllegalArgumentException("Unsupported task: ${task.name}")
         }
 
