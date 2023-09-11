@@ -1,4 +1,6 @@
 # Arknights-Autoclicker
+Android autoclicker for Arknights. 
+This app is based heavily on OCR to detect the current state of the game and click on the screen accordingly.
 
 ## Setup
 1. Install the app on your phone
@@ -17,7 +19,6 @@ Accessibility:
     <img src="https://github.com/qwerttyuiiop1/Arknights-Autoclicker/assets/64955571/46bee33e-a056-41e3-a2c2-11b2850a7aca" style="width: 25%;">
 </div>
 
-
 ## Features
 
 Autobattle: Start in this screen or any of the battle screens
@@ -26,11 +27,17 @@ Autobattle: Start in this screen or any of the battle screens
 Recruitment / Expedite Recruitment: Start in this screen or any of the recruitment screens
 ![1692795550423](https://github.com/qwerttyuiiop1/Arknights-Autoclicker/assets/64955571/4201ac2d-cb9c-4b95-8059-1d1ad5e64251)
 
+Base: Start in any of the following screens
+![1693648369312](https://github.com/qwerttyuiiop1/Arknights-Autoclicker/assets/64955571/a0697d76-8fcb-49ad-b925-985773b05996)
+<img width="1402" alt="image" src="https://github.com/qwerttyuiiop1/Arknights-Autoclicker/assets/64955571/7625ae6d-92df-4f1e-ad48-ba47e70e505a">
+
+Screenshot: Take a screenshot without the overlay
+
+
 ## TODO
 - [ ] remove click on overlay
 - [ ] add support for screen sizes other than 2400 x 1080
-- [ ] add support for split screen
-- [ ] base autoclicker
+- [ ] ~~add support for split screen~~
 
 ## Credits
 * ML kit: https://developers.google.com/ml-kit/vision/text-recognition/android
