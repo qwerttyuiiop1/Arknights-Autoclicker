@@ -28,7 +28,7 @@ interface TextArea {
             rect, recognizer, scale
         )
     }
-    val rect: Rect
+    val area: Rect
     val recognizer: TextRecognizer
     val scale: Float
     /**
@@ -57,17 +57,17 @@ interface MTextArea: TextArea {
 }
 
 open class MTextAreaImpl(
-    override final val rect: Rect,
+    override final val area: Rect,
     override val recognizer: TextRecognizer,
-    override val scale: Float = getDefaultScale(rect)
+    override val scale: Float = getDefaultScale(area)
 ): MTextArea, UIElement {
-    private val orig = Rect(rect)
-    protected val cropped = RecyclableBitmap(rect.width(), rect.height())
+    private val orig = Rect(area)
+    protected val cropped = RecyclableBitmap(area.width(), area.height())
 
-    protected val scaled = RecyclableBitmap(rect.width(), rect.height())
+    protected val scaled = RecyclableBitmap(area.width(), area.height())
 
     protected fun getCropped(bitmap: Bitmap): Bitmap {
-        return bitmap.cropped(rect, cropped)
+        return bitmap.cropped(area, cropped)
     }
     override suspend fun getText(full: Bitmap): Text {
         getCropped(full).scaled(
@@ -83,8 +83,8 @@ open class MTextAreaImpl(
             field = value
         }
     override suspend fun matchesLabel(full: Bitmap): Boolean {
-        if (rect.right > full.width ||
-            rect.bottom > full.height)
+        if (area.right > full.width ||
+            area.bottom > full.height)
             return false
         return matchesLabel(getText(full))
     }
@@ -96,7 +96,7 @@ open class MTextAreaImpl(
             }
         } ?: throw IllegalStateException("Label not set")
     }
-    override fun setPos(x: Int, y: Int) = rect.offsetTo(x, y)
-    override fun setRect(r: Rect) = rect.set(r)
-    override fun reset() = rect.set(orig)
+    override fun setPos(x: Int, y: Int) = area.offsetTo(x, y)
+    override fun setRect(r: Rect) = area.set(r)
+    override fun reset() = area.set(orig)
 }

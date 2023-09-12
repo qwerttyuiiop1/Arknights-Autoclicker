@@ -13,7 +13,7 @@ class AutoBattleUIBinding(
 ): UIGroup {
     val startBtn = TextButton(
         Rect(
-            2038, 960, 2400, 1080
+            2037, 960, 2347, 1054
         ),
         clicker, recognizer,
     ).apply { label = setOf("start") }
@@ -33,7 +33,13 @@ class AutoBattleUIBinding(
     ).apply { label = setOf("mission", "results") }
     val sanityLabel = TextArea(
         Rect(
-            2400 - 230, 0, 2400, 100
+            2400 - 235, 35, 2400 - 90, 90
+        ),
+        recognizer,
+    )
+    val sanityCostLabel = TextArea(
+        Rect(
+            2400 - 150, 1080 - 45, 2400 - 80, 1070
         ),
         recognizer,
     )

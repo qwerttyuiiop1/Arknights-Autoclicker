@@ -8,6 +8,7 @@ import com.example.arknightsautoclicker.processing.io.Clicker
 import com.example.arknightsautoclicker.processing.io.TextRecognizer
 import com.example.arknightsautoclicker.processing.tasks.recruitment.ClickInst
 import com.example.arknightsautoclicker.processing.tasks.recruitment.TextInst
+import kotlinx.coroutines.delay
 
 class DormAssignment(
     val clicker: Clicker,
@@ -84,6 +85,7 @@ class DormAssignment(
         while (!summary.overviewLabel.matchesLabel(tick))
     }
     override suspend fun run(): MyResult<Unit> {
+        delay(500)
         awaitTick()
         if (navigateToSelect())
             assignOps()

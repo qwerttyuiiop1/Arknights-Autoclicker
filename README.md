@@ -38,6 +38,7 @@ Screenshot: Take a screenshot without the overlay
 - [ ] remove click on overlay
 - [ ] add support for screen sizes other than 2400 x 1080
 - [ ] ~~add support for split screen~~
+- [ ] some way to update the tag combinations
 
 ## Credits
 * ML kit: https://developers.google.com/ml-kit/vision/text-recognition/android

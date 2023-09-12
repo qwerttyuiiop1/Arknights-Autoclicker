@@ -1,41 +1,39 @@
 package com.example.arknightsautoclicker.processing.tasks.autobattle
 
+import com.example.arknightsautoclicker.processing.components.TextArea
 import com.example.arknightsautoclicker.processing.tasks.Task
 import com.example.arknightsautoclicker.processing.io.Clicker
 import com.example.arknightsautoclicker.processing.exe.ResetRunner
 import com.example.arknightsautoclicker.processing.exe.Instance
 import com.example.arknightsautoclicker.processing.exe.MyResult
 import com.example.arknightsautoclicker.processing.io.TextRecognizer
-import com.example.arknightsautoclicker.processing.ext.flattenString
 import kotlinx.coroutines.delay
 import java.util.regex.Pattern
 
 private class AutoBattleInstance (
     val ui: AutoBattleUIBinding
 ): Instance<String>() {
+    private val pattern = Pattern.compile("\\d+")
+    suspend fun getInt(
+        label: TextArea
+    ): Int {
+        val text = label.getText(tick).text
+        val matcher = pattern.matcher(text)
+        if (!matcher.find()) return -1
+        return matcher.group().toInt()
+    }
     suspend fun startBattle(): Boolean {
-        val text = ui.startBtn.getText(tick)
-        if (ui.startBtn.matchesLabel(text)) {
-            val sanityCostText = text.flattenString("")
-            val totalSanityText =
-                ui.sanityLabel.getText(tick).flattenString("")
-
-            val pattern = Pattern.compile("\\d+")
-            val sanityMatcher = pattern.matcher(sanityCostText)
-            val totalSanityMatcher = pattern.matcher(totalSanityText)
-
-            if (!sanityMatcher.find()) return false
-            if (!totalSanityMatcher.find()) return false
-
-            val totalSanity = totalSanityMatcher.group().toInt()
-            var sanityCost = sanityMatcher.group().toInt()
-            if (sanityCost < 0) sanityCost *= -1
+        if (ui.startBtn.matchesLabel(tick)) {
+            val totalSanity = getInt(ui.sanityLabel)
+            val sanityCost = getInt(ui.sanityCostLabel)
+            if (totalSanity == -1 || sanityCost == -1)
+                return true
 
             if (totalSanity < sanityCost) {
                 exit(MyResult.Success("Out of sanity"))
             } else {
                 ui.startBtn.click()
-                delay(3 * 60) // delay 3 seconds for animation
+                delay(1000) // delay 1 seconds for animation
             }
             return true
         }

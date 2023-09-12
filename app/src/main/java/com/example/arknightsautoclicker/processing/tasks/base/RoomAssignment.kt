@@ -7,6 +7,7 @@ import com.example.arknightsautoclicker.processing.exe.multi
 import com.example.arknightsautoclicker.processing.io.Clicker
 import com.example.arknightsautoclicker.processing.io.TextRecognizer
 import com.example.arknightsautoclicker.processing.tasks.recruitment.ClickInst
+import kotlinx.coroutines.delay
 
 class RoomAssignment(
     val clicker: Clicker,
@@ -31,6 +32,7 @@ class RoomAssignment(
         while (!summary.overviewLabel.matchesLabel(tick))
     }
     override suspend fun run(): MyResult<Unit> {
+        delay(500)
         awaitTick()
         val y = summary.locateRoomTop(tick, y)
         summary.setPos(y)

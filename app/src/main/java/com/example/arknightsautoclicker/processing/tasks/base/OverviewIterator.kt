@@ -34,7 +34,7 @@ class OverviewIterator(
         var offset = 0
         while (true) {
             roomLabels.reset()
-            val rect = roomLabels.rect
+            val rect = roomLabels.area
             rect.top += offset
             val labels = roomLabels.getText(tick)
             for (block in labels.textBlocks) {
