@@ -8,29 +8,37 @@ This app is based heavily on OCR to detect the current state of the game and cli
 3. Click on the app icon to start the app
 4. Enable permissions for the app
 
+
 Display over other apps:
 <div style="display: flex; flex-direction: row;">
-    <img src="https://github.com/qwerttyuiiop1/Arknights-Autoclicker/assets/64955571/f7ea0617-c704-4095-a5b3-f51daf2517db" style="width: 33%;">
-    <img src="https://github.com/qwerttyuiiop1/Arknights-Autoclicker/assets/64955571/3d259b27-53f0-4b09-9112-ff8b2f3f0fe5" style="width: 33%;">
+    <img src="https://github.com/qwerttyuiiop1/Arknights-Autoclicker/assets/64955571/573b8b71-16cf-4d3b-8827-0bda2a69b3ff" style="width: 33%;">
+    <img src="https://github.com/qwerttyuiiop1/Arknights-Autoclicker/assets/64955571/cf498de3-beb6-43b5-8d29-ae9316f88167" style="width: 33%;">
 </div>
+
 Accessibility:
 <div style="display: flex; flex-direction: row;">
-    <img src="https://github.com/qwerttyuiiop1/Arknights-Autoclicker/assets/64955571/2b929027-0493-45db-9e89-85776c587ffd" style="width: 25%;">
-    <img src="https://github.com/qwerttyuiiop1/Arknights-Autoclicker/assets/64955571/d58803b3-1d09-4f1f-a3e5-471ae5f08f78" style="width: 25%;">
-    <img src="https://github.com/qwerttyuiiop1/Arknights-Autoclicker/assets/64955571/46bee33e-a056-41e3-a2c2-11b2850a7aca" style="width: 25%;">
+    <img src="https://github.com/qwerttyuiiop1/Arknights-Autoclicker/assets/64955571/9e4b4a68-cf30-4891-baeb-6dc88df250ea" style="width: 25%;">
+    <img src="https://github.com/qwerttyuiiop1/Arknights-Autoclicker/assets/64955571/2f22293a-8051-4dd3-a8d3-f326007a6bd2" style="width: 25%;">
+    <img src="https://github.com/qwerttyuiiop1/Arknights-Autoclicker/assets/64955571/e65efa9e-abb4-4f63-9a57-fe913675d937" style="width: 25%;">
 </div>
 
 ## Features
 
 Autobattle: Start in this screen or any of the battle screens
-![1689347487821](https://github.com/qwerttyuiiop1/Arknights-Autoclicker/assets/64955571/3d2f6c5c-a779-493e-ad3a-4dbf51008c0d)
+![264052613-3d2f6c5c-a779-493e-ad3a-4dbf51008c0d](https://github.com/qwerttyuiiop1/Arknights-Autoclicker/assets/64955571/b2c16a61-3715-481f-9eb2-fb674f634bc9)
+
+<br/>
 
 Recruitment / Expedite Recruitment: Start in this screen or any of the recruitment screens
-![1692795550423](https://github.com/qwerttyuiiop1/Arknights-Autoclicker/assets/64955571/4201ac2d-cb9c-4b95-8059-1d1ad5e64251)
+![264054690-4201ac2d-cb9c-4b95-8059-1d1ad5e64251](https://github.com/qwerttyuiiop1/Arknights-Autoclicker/assets/64955571/3bec3132-30b0-4ed6-b8c0-db6cd41ae3dc)
+
+<br/>
 
 Base: Start in any of the following screens
-![1693648369312](https://github.com/qwerttyuiiop1/Arknights-Autoclicker/assets/64955571/a0697d76-8fcb-49ad-b925-985773b05996)
-<img width="1402" alt="image" src="https://github.com/qwerttyuiiop1/Arknights-Autoclicker/assets/64955571/7625ae6d-92df-4f1e-ad48-ba47e70e505a">
+![266899609-a0697d76-8fcb-49ad-b925-985773b05996](https://github.com/qwerttyuiiop1/Arknights-Autoclicker/assets/64955571/5dfc128a-bb48-4f41-9269-7d28d8575a22)
+<img width="1402" alt="266899756-7625ae6d-92df-4f1e-ad48-ba47e70e505a" src="https://github.com/qwerttyuiiop1/Arknights-Autoclicker/assets/64955571/ab0ad942-6f75-4735-b709-6b27e28b3309">
+
+<br/>
 
 Screenshot: Take a screenshot without the overlay
 
