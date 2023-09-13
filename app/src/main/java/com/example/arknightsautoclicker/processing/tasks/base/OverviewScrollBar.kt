@@ -8,7 +8,6 @@ import com.example.arknightsautoclicker.processing.components.similarTo
 import com.example.arknightsautoclicker.processing.exe.Instance
 import com.example.arknightsautoclicker.processing.exe.MyResult
 import com.example.arknightsautoclicker.processing.exe.TaskInstance
-import com.example.arknightsautoclicker.processing.exe.simple
 import com.example.arknightsautoclicker.processing.io.Clicker
 
 class OverviewScrollBar(
@@ -80,28 +79,41 @@ class OverviewScrollBar(
         scrollbarTop = lo
     }
 
-    fun setup(screen: Bitmap) = TaskInstance.simple {
-        var minBot = locateScrollBar(screen)
-        if (minBot == -1)
-            return@simple MyResult.Fail("Could not find scroll bar")
-        updateScrollPos(screen, minBot)
-        var bot = scrollBot
-        while (minBot <= bot) {
-            val mid = (minBot + bot) / 2
-            if (screen.isScrollBar(mid))
-                minBot = mid + 1
-            else
-                bot = mid - 1
+    private inner class SetupInst: Instance<Unit>() {
+        private fun hasNotif(): Boolean {
+            val x = 2400 - 5
+            val blank = 0x009b9b9b
+            for (i in scrollTop..scrollBot step 33) //size of notif is 50
+                if (!tick.getPixel(x, i).similarTo(blank, 27))
+                    return true
+            return false
         }
-        val h = area.rect.height()
-        val scrollbarH = bot - scrollbarTop + 1
-        scrollScale = h / scrollbarH.toDouble()
-        pixErr = (scrollScale * 3).toInt()
-        val scrollH = scrollBot - scrollTop + 1
-        totalHeight = (scrollH * scrollScale).toInt()
-        endPos = totalHeight - h
-        MyResult.Success(Unit)
+        override suspend fun run(): MyResult<Unit> {
+            do awaitTick()
+            while (hasNotif())
+            var minBot = locateScrollBar(tick)
+            if (minBot == -1)
+                return MyResult.Fail("Could not find scroll bar")
+            updateScrollPos(tick, minBot)
+            var bot = scrollBot
+            while (minBot <= bot) {
+                val mid = (minBot + bot) / 2
+                if (tick.isScrollBar(mid))
+                    minBot = mid + 1
+                else
+                    bot = mid - 1
+            }
+            val h = area.rect.height()
+            val scrollbarH = bot - scrollbarTop + 1
+            scrollScale = h / scrollbarH.toDouble()
+            pixErr = (scrollScale * 3).toInt()
+            val scrollH = scrollBot - scrollTop + 1
+            totalHeight = (scrollH * scrollScale).toInt()
+            endPos = totalHeight - h
+            return MyResult.Success(Unit)
+        }
     }
+    fun setup() = SetupInst() as TaskInstance<Unit>
 
     fun isAtTop() = currPos in 0..pixErr
     fun isAtBottom() = (endPos - currPos) in 0..pixErr

@@ -9,10 +9,15 @@ import com.example.arknightsautoclicker.processing.io.Clicker
 import com.example.arknightsautoclicker.processing.io.TextRecognizer
 import com.google.mlkit.vision.text.Text
 
+/**
+ * Iterates over all rooms in the dorm
+ * @param each: called for each room, returns whether to continue
+ * @param filter: called to filter rooms
+ */
 class OverviewIterator(
     val clicker: Clicker,
     val recognizer: TextRecognizer,
-    val each: (Int, Int) -> TaskInstance<Unit>,
+    val each: (Int, Int) -> TaskInstance<Boolean>,
     val filter: (Text.TextBlock) -> Boolean
 ): Instance<Unit>() {
     val scrollBar = OverviewScrollBar(clicker)
@@ -47,7 +52,7 @@ class OverviewIterator(
                     join(each(
                         rawX.toInt(),
                         rawY.toInt()
-                    ))
+                    )) || return
                 }
             }
             val last = labels.textBlocks.lastOrNull()?.boundingBox
@@ -60,7 +65,7 @@ class OverviewIterator(
 
     override suspend fun run(): MyResult<Unit> {
         awaitTick()
-        join(scrollBar.setup(tick))
+        join(scrollBar.setup())
         join(scrollBar.scrollToTop())
         iterateRooms()
         return MyResult.Success(Unit)

@@ -33,7 +33,7 @@ private class AutoBattleInstance (
                 exit(MyResult.Success("Out of sanity"))
             } else {
                 ui.startBtn.click()
-                delay(1000) // delay 1 seconds for animation
+                delay(500) // delay 0.5 seconds for animation
             }
             return true
         }

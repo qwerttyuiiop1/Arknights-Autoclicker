@@ -36,11 +36,13 @@ class AutoBattleUIBinding(
             2400 - 235, 35, 2400 - 90, 90
         ),
         recognizer,
+        scale = 1.5f
     )
     val sanityCostLabel = TextArea(
         Rect(
             2400 - 150, 1080 - 45, 2400 - 80, 1070
         ),
         recognizer,
+        scale = 1.5f
     )
 }

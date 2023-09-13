@@ -7,13 +7,12 @@ import com.example.arknightsautoclicker.processing.exe.multi
 import com.example.arknightsautoclicker.processing.io.Clicker
 import com.example.arknightsautoclicker.processing.io.TextRecognizer
 import com.example.arknightsautoclicker.processing.tasks.recruitment.ClickInst
-import kotlinx.coroutines.delay
 
 class RoomAssignment(
     val clicker: Clicker,
     val recognizer: TextRecognizer,
     val x: Int, val y: Int
-): Instance<Unit>() {
+): Instance<Boolean>() {
     val summary = RoomUI(clicker, recognizer)
     val assignment = AssignmentUI(clicker, recognizer)
     suspend fun assignOps(count: Int) {
@@ -31,8 +30,7 @@ class RoomAssignment(
         do awaitTick()
         while (!summary.overviewLabel.matchesLabel(tick))
     }
-    override suspend fun run(): MyResult<Unit> {
-        delay(500)
+    override suspend fun run(): MyResult<Boolean> {
         awaitTick()
         val y = summary.locateRoomTop(tick, y)
         summary.setPos(y)
@@ -43,6 +41,6 @@ class RoomAssignment(
             ))
             assignOps(nSelect)
         }
-        return MyResult.Success(Unit)
+        return MyResult.Success(true)
     }
 }

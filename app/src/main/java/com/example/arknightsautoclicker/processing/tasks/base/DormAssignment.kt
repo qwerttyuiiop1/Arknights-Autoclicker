@@ -8,13 +8,12 @@ import com.example.arknightsautoclicker.processing.io.Clicker
 import com.example.arknightsautoclicker.processing.io.TextRecognizer
 import com.example.arknightsautoclicker.processing.tasks.recruitment.ClickInst
 import com.example.arknightsautoclicker.processing.tasks.recruitment.TextInst
-import kotlinx.coroutines.delay
 
 class DormAssignment(
     val clicker: Clicker,
     val recognizer: TextRecognizer,
     val x: Int, val y: Int
-): Instance<Unit>() {
+): Instance<Boolean>() {
     val summary = RoomUI(clicker, recognizer)
     val assignment = AssignmentUI(clicker, recognizer)
     class SelectInst(
@@ -70,11 +69,15 @@ class DormAssignment(
         }
         join(TaskInstance.multi(deselect))
         val select = ArrayList<SelectInst>()
+        var exit = false
         for (i in selected.size until 5 + deselect.size) {
             val slot = assignment.slots[i]
             if (
                 slot.moraleAbove(tick, 0.5f)
-            ) break
+            ) {
+                exit = true
+                break
+            }
             select.add(SelectInst(slot, true))
         }
         join(TaskInstance.multi(select))
@@ -83,12 +86,13 @@ class DormAssignment(
         join(ClickInst(assignment.confirm2))
         do awaitTick()
         while (!summary.overviewLabel.matchesLabel(tick))
+        if (exit)
+            exit(MyResult.Success(false))
     }
-    override suspend fun run(): MyResult<Unit> {
-        delay(500)
+    override suspend fun run(): MyResult<Boolean> {
         awaitTick()
         if (navigateToSelect())
             assignOps()
-        return MyResult.Success(Unit)
+        return MyResult.Success(true)
     }
 }
