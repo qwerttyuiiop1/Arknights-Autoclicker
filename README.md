@@ -1,5 +1,5 @@
 # Arknights-Autoclicker
-Android autoclicker for Arknights. 
+Android autoclicker for Arknights.
 This app is based heavily on OCR to detect the current state of the game and click on the screen accordingly.
 
 ## Setup
@@ -34,13 +34,22 @@ Base: Start in any of the following screens
 Screenshot: Take a screenshot without the overlay
 
 
+## Bug Report
+If you encounter any bugs, please report them in the issues tab. Please include the following information:
+* Phone model
+* Android version
+* Steps to reproduce the bug
+* Screenshots of the bug (use the screenshot feature in the app)
+
 ## TODO
 - [ ] remove click on overlay
 - [ ] add support for screen sizes other than 2400 x 1080
 - [ ] ~~add support for split screen~~
 - [ ] some way to update the tag combinations
+- [ ] app icon (ongoing)
 
 ## Credits
 * ML kit: https://developers.google.com/ml-kit/vision/text-recognition/android
 * Floating Bubble View: https://github.com/TorryDo/Floating-Bubble-View
 * Flexbox Layout: https://github.com/google/flexbox-layout
+* ples support me :>
