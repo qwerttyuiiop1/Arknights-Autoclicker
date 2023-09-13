@@ -3,9 +3,10 @@ Android autoclicker for Arknights.
 This app is based heavily on OCR to detect the current state of the game and click on the screen accordingly.
 
 ## Setup
-1. Install the app on your phone
-2. Click on the app icon to start the app
-3. Enable permissions for the app
+1. Download the latest release from the releases tab
+2. Install the app on your phone
+3. Click on the app icon to start the app
+4. Enable permissions for the app
 
 Display over other apps:
 <div style="display: flex; flex-direction: row;">
