@@ -1,6 +1,6 @@
 # Arknights-Autoclicker
-Android autoclicker for Arknights.
-This app is based heavily on OCR to detect the current state of the game and click on the screen accordingly.
+Android autoclicker for Arknights. <br/>
+This app is based heavily on OCR to detect the current state of the game and click on the screen accordingly. <br/>
 It is designed to be lightweight and standalone, and does not require root access.
 
 ## Setup
