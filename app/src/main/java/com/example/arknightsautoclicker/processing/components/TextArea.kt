@@ -57,7 +57,7 @@ interface MTextArea: TextArea {
 }
 
 open class MTextAreaImpl(
-    override final val area: Rect,
+    final override val area: Rect,
     override val recognizer: TextRecognizer,
     override val scale: Float = getDefaultScale(area)
 ): MTextArea, UIElement {

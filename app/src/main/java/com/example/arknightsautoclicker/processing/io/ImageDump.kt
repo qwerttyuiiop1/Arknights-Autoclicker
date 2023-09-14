@@ -19,7 +19,7 @@ class ImageDump(
 ) {
     fun dump(bitmap: Bitmap) {
         val output = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 80, output)
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, output) // lossless compression
         getOutputStream(context).use {
             it.write(output.toByteArray())
         }
@@ -28,7 +28,7 @@ class ImageDump(
     private fun getOutputStream(context: Context): OutputStream {
         val format = SimpleDateFormat("yyyyMMdd-HHmmss", Locale.getDefault())
         val fname = "screenshot-${format.format(Date())}.jpg"
-        val mimeType = "image/jpeg"
+        val mimeType = "image/png"
         val contentResolver = context.contentResolver
         val contentValues = ContentValues().apply {
             put(MediaStore.MediaColumns.DISPLAY_NAME, fname)

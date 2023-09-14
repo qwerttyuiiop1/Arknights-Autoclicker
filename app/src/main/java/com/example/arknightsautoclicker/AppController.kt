@@ -20,7 +20,7 @@ class AppController (
     companion object {
         const val ACTION_BUBBLE = "action_bubble"
     }
-    protected val ctx: Context = svc
+    private val ctx: Context = svc
     private lateinit var taskHandler: TaskHandler
     private var uiController: BubbleController? = null
     private lateinit var clicker: Clicker

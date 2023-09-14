@@ -3,7 +3,6 @@ package com.example.arknightsautoclicker.processing.exe
 import android.graphics.Bitmap
 import com.example.arknightsautoclicker.processing.tasks.Task
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 /**
  * For doing long-running and sequential tick-based tasks

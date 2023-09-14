@@ -1,7 +1,6 @@
 package com.example.arknightsautoclicker.processing.exe
 
 import android.graphics.Bitmap
-import android.util.Log
 import com.example.arknightsautoclicker.processing.io.Screenshot
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
