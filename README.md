@@ -1,4 +1,5 @@
 # Arknights-Autoclicker
+<img src="https://github.com/qwerttyuiiop1/Arknights-Autoclicker/assets/64955571/55974797-81f7-4d54-928d-239a37a6a9f1" width = 250 height = 250> <br/>
 Android autoclicker for Arknights. <br/>
 This app is based heavily on OCR to detect the current state of the game and click on the screen accordingly. <br/>
 It is designed to be lightweight and standalone, and does not require root access.
@@ -91,4 +92,5 @@ If you encounter any bugs, please report them in the issues tab. Please include 
 * Floating Bubble View: https://github.com/TorryDo/Floating-Bubble-View
 * Flexbox Layout: https://github.com/google/flexbox-layout
 * Recruitment tag combinations: https://aceship.github.io/AN-EN-Tags/akhr.html
+* App icon: zumbz
 * ples support me :>
