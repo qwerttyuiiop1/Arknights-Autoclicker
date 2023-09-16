@@ -8,7 +8,6 @@ import com.example.arknightsautoclicker.processing.exe.MyResult
 
 open class RecruitmentTask(
     protected val clicker: Clicker,
-    @Suppress("unused")
     protected val recognizer: TextRecognizer,
     protected val analyzer: TagAnalyzer
 ) : ResetRunner() {

@@ -37,7 +37,6 @@ open class NotifHelper(
     }
     fun createNotification(title: String, icon: Int, desc: String? = null) =
         createNotification(title, IconCompat.createWithResource(ctx, icon), desc)
-    @Suppress("unused")
     fun close(notificationId: Int) = mgr.cancel(notificationId)
     @Suppress("unused")
     fun notify(id: Int, notification: Notification) = mgr.notify(id, notification)

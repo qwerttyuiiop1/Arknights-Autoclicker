@@ -10,27 +10,26 @@ typealias ResList<T> = List<MyResult.Success<out T>>
 fun <T> ResList<T>.flatten() = map { it.data }
 /**
  * wrapper Instance running multiple instances
- * concurrently in a single scope
+ * with synchronized ticks in a single scope
  */
 open class MultiInstance<T>(
     val tasks: List<TaskInstance<out T>>
 ): Instance<ResList<T>>() {
-    private lateinit var scope: CoroutineScope
-    override fun start(scope: CoroutineScope) {
-        this.scope = scope
-        tasks.forEach { it.start(scope) }
-        super.start(scope)
-    }
     override suspend fun run(): MyResult<ResList<T>> {
+        tasks.map { it.start(ctx) }
         val results = MutableList<MyResult<out T>?>(tasks.size) { null }
         var tasks = tasks.mapIndexed { i, it ->
             i to it
         }
         while (true) {
-            val list = tasks.map {
-                scope.async { it.second.awaitResult() }
+            awaitTick()
+            val list = tasks.map { (_, task) ->
+                ctx.async {
+                    val res = task.awaitResult()
+                    res ?: task.nextTick(tick)
+                    res
+                }
             }
-
             tasks = tasks.filterIndexed { listI, (resI, _) ->
                 val res = list[listI].await()
                 if (res != null) {
@@ -45,13 +44,8 @@ open class MultiInstance<T>(
             if (tasks.isEmpty())
                 @Suppress("UNCHECKED_CAST")
                 return MyResult.Success(results as ResList<T>)
-            awaitTick()
-            tasks.map { (_, it) ->
-                scope.launch { it.nextTick(tick) }
-            }.forEach { it.join() }
         }
     }
-
     override fun close() {
         tasks.forEach { it.close() }
         super.close()
@@ -74,7 +68,7 @@ open class ChainedInstance<T>(
         awaitTick()
         val results = MutableList<MyResult<out T>?>(tasks.size) { null }
         tasks.forEachIndexed { i, it ->
-            val res = tryJoin(it)
+            val res = ctx.tryJoin(it)
             results[i] = res
             if (res !is MyResult.Success)
                 return MyResult.Fail(results)
@@ -117,3 +111,20 @@ private class SimpleImpl<T>(
 fun <T> TaskInstance.Companion.simple(
     run: suspend (Bitmap) -> MyResult<T>
 ) = SimpleImpl(run) as SimpleInstance<T>
+private class DefaultImpl<T>(
+    val a: suspend TaskScope<T>.() -> MyResult<T>
+): TaskScope<T>() {
+    override fun start(scope: CoroutineScope) {
+        super.start(scope)
+        launch {
+            try {
+                complete(run(a))
+            } finally {
+                close()
+            }
+        }
+    }
+}
+operator fun <T> TaskInstance.Companion.invoke(
+    run: suspend TaskScope<T>.() -> MyResult<T>
+) = DefaultImpl(run) as TaskInstance<T>

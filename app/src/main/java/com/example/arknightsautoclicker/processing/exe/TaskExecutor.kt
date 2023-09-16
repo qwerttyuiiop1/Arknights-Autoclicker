@@ -7,6 +7,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.cancelAndJoin
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -26,8 +27,8 @@ class TaskExecutor(
         }
     var onTaskComplete: ((TaskResult) -> Unit)? = null
 
-    private suspend fun startLoop(runner: TaskRunner) {
-        runner.start(scope)
+    private suspend fun startLoop(runner: TaskRunner) = coroutineScope {
+        runner.start(this)
         while (true) {
             runner.awaitResult()?.let { stopSync(it) }
             var tick: Bitmap?
