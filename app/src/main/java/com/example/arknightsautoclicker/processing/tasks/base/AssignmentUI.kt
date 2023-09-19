@@ -2,11 +2,11 @@ package com.example.arknightsautoclicker.processing.tasks.base
 
 import android.graphics.Bitmap
 import android.graphics.Rect
-import com.example.arknightsautoclicker.processing.components.Button
-import com.example.arknightsautoclicker.processing.components.TextArea
-import com.example.arknightsautoclicker.processing.components.TextButton
-import com.example.arknightsautoclicker.processing.components.UIGroup
-import com.example.arknightsautoclicker.processing.components.similarTo
+import com.example.arknightsautoclicker.components.ui.UIButton
+import com.example.arknightsautoclicker.components.ui.TextArea
+import com.example.arknightsautoclicker.components.ui.TextButton
+import com.example.arknightsautoclicker.components.UIGroup
+import com.example.arknightsautoclicker.components.similarTo
 import com.example.arknightsautoclicker.processing.io.Clicker
 import com.example.arknightsautoclicker.processing.io.TextRecognizer
 
@@ -17,7 +17,7 @@ class AssignmentUI(
 ): UIGroup {
     inner class Slot(
         val x: Int, val y: Int,
-    ): Button by Button(
+    ): UIButton by UIButton(
         Rect(
             10, 10, 224 - 10, 422 - 10
         ).apply {

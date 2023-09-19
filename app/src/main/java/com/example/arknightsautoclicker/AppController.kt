@@ -32,7 +32,7 @@ class AppController (
         clicker = RandomClicker(svc)
         screenshot = Screenshot(svc, intent)
         taskHandler = TaskHandler(
-            screenshot, ctx, clicker
+            screenshot, ctx, clicker, svc.handler
         )
         taskHandler.onTaskChangeListener = { task ->
             svc.handler.post {

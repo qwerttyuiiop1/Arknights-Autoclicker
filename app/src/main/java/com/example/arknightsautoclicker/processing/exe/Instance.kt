@@ -4,13 +4,13 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 abstract class Instance<T> private constructor(
-    protected val ctx: TaskScope<T>,
-): TaskInstance<T> by ctx {
+    protected val scope: TaskScope<T>,
+): TaskInstance<T> by scope {
     constructor(): this(TaskScope())
     protected abstract suspend fun run(): MyResult<T>
     override fun start(scope: CoroutineScope) {
-        ctx.start(scope)
-        ctx.launch {
+        this.scope.start(scope)
+        this.scope.launch {
             try {
                 val res = run()
                 exit(res)
@@ -20,9 +20,9 @@ abstract class Instance<T> private constructor(
             }
         }
     }
-    protected val tick get() = ctx.tick
-    protected suspend fun <U> join(r: TaskInstance<U>) = ctx.join(r)
-    protected suspend fun awaitTick() = ctx.awaitTick()
-    protected suspend fun exit(msg: MyResult<T>): Nothing = ctx.complete(msg)
+    protected val tick get() = scope.tick
+    protected suspend fun <U> join(r: TaskInstance<U>) = scope.join(r)
+    protected suspend fun awaitTick() = scope.awaitTick()
+    protected suspend fun exit(msg: MyResult<T>): Nothing = scope.complete(msg)
     protected open suspend fun onClose() {}
 }

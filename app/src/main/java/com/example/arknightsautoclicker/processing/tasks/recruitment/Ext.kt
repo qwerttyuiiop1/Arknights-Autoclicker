@@ -1,9 +1,9 @@
 package com.example.arknightsautoclicker.processing.tasks.recruitment
 
 import android.graphics.Bitmap
-import com.example.arknightsautoclicker.processing.components.Button
-import com.example.arknightsautoclicker.processing.components.TextArea
-import com.example.arknightsautoclicker.processing.components.TextButton
+import com.example.arknightsautoclicker.components.ui.UIButton
+import com.example.arknightsautoclicker.components.ui.TextArea
+import com.example.arknightsautoclicker.components.ui.TextButton
 import com.example.arknightsautoclicker.processing.exe.Instance
 import com.example.arknightsautoclicker.processing.exe.MyResult
 import com.example.arknightsautoclicker.processing.exe.SimpleInstance
@@ -25,7 +25,7 @@ class TextInst<T : TextArea>(
  */
 class ClickInst(
     val label: TextArea,
-    val btn: Button,
+    val btn: UIButton,
     val every: Int = 5,
 ): Instance<Int>() {
     constructor(

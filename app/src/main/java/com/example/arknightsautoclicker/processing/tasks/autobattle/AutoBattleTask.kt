@@ -1,18 +1,19 @@
 package com.example.arknightsautoclicker.processing.tasks.autobattle
 
-import com.example.arknightsautoclicker.processing.components.TextArea
+import com.example.arknightsautoclicker.components.LazySuspend
+import com.example.arknightsautoclicker.components.ui.TextArea
+import com.example.arknightsautoclicker.components.UIContext
 import com.example.arknightsautoclicker.processing.tasks.Task
-import com.example.arknightsautoclicker.processing.io.Clicker
 import com.example.arknightsautoclicker.processing.exe.ResetRunner
 import com.example.arknightsautoclicker.processing.exe.Instance
 import com.example.arknightsautoclicker.processing.exe.MyResult
-import com.example.arknightsautoclicker.processing.io.TextRecognizer
 import kotlinx.coroutines.delay
 import java.util.regex.Pattern
 
 private class AutoBattleInstance (
-    val ui: AutoBattleUIBinding
+    private val _ui: suspend ()->AutoBattleUIBinding
 ): Instance<String>() {
+    lateinit var ui: AutoBattleUIBinding
     private val pattern = Pattern.compile("\\d+")
     suspend fun getInt(
         label: TextArea
@@ -40,6 +41,7 @@ private class AutoBattleInstance (
         return false
     }
     override suspend fun run(): MyResult<String> {
+        ui = _ui()
         while (true) {
             awaitTick()
             startBattle() && continue
@@ -55,11 +57,10 @@ private class AutoBattleInstance (
     }
 }
 
-class AutoBattleTask(
-    clicker: Clicker,
-    recognizer: TextRecognizer,
-): ResetRunner() {
+class AutoBattleTask(val ctx: UIContext): ResetRunner() {
     override val task = Task.BATTLE
-    private val ui = AutoBattleUIBinding(clicker, recognizer)
+    private val ui by LazySuspend {
+        AutoBattleUIBinding(ctx)
+    }
     override fun newInstance() = AutoBattleInstance(ui) as Instance<String>
 }

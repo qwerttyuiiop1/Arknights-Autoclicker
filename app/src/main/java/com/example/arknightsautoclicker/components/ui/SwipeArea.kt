@@ -1,4 +1,4 @@
-package com.example.arknightsautoclicker.processing.components
+package com.example.arknightsautoclicker.components.ui
 
 import android.graphics.Rect
 import com.example.arknightsautoclicker.processing.io.Clicker

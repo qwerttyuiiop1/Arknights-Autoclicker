@@ -2,6 +2,8 @@ package com.example.arknightsautoclicker.processing.tasks
 
 import android.content.Context
 import android.content.Intent
+import android.os.Handler
+import com.example.arknightsautoclicker.components.UIContext
 import com.example.arknightsautoclicker.processing.exe.TaskExecutor
 import com.example.arknightsautoclicker.processing.exe.TaskResult
 import com.example.arknightsautoclicker.processing.io.Clicker
@@ -21,13 +23,15 @@ import kotlin.IllegalArgumentException
 class TaskHandler(
     private val screenshot: Screenshot,
     private val ctx: Context,
-    private val clicker: Clicker
+    private val clicker: Clicker,
+    handler: Handler
 ) {
     companion object {
         const val GITHUB_URL = "https://github.com/qwerttyuiiop1/Arknights-Autoclicker/"
     }
     private val executor = TaskExecutor(screenshot)
     private val recognizer = TextRecognizer()
+    private val uiCtx = UIContext(ctx, clicker, recognizer, handler)
     private var currentTask = Task.NONE
     var onTaskChangeListener: ((Task)->Unit)? = null
     var onCompleteListener: ((TaskResult)->Unit)? = null
@@ -74,7 +78,7 @@ class TaskHandler(
                 ctx.startActivity(intent)
             }
             Task.BATTLE -> executor.runner =
-                AutoBattleTask(clicker, recognizer)
+                AutoBattleTask(uiCtx)
             Task.RECRUIT -> executor.runner =
                 RecruitmentTask(clicker, recognizer, TagAnalyzer())
             Task.CONTINUOUS_RECRUIT -> executor.runner =

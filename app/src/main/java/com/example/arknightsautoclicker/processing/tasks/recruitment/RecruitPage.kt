@@ -1,7 +1,7 @@
 package com.example.arknightsautoclicker.processing.tasks.recruitment
 
 import android.graphics.Bitmap
-import com.example.arknightsautoclicker.processing.components.TextButton
+import com.example.arknightsautoclicker.components.ui.TextButton
 import com.example.arknightsautoclicker.processing.exe.Instance
 import com.example.arknightsautoclicker.processing.exe.MyResult
 import com.example.arknightsautoclicker.processing.exe.Promise

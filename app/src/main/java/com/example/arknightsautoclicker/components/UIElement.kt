@@ -1,4 +1,4 @@
-package com.example.arknightsautoclicker.processing.components
+package com.example.arknightsautoclicker.components
 
 /**
  * this interface does nothing and is just here for semantic purposes

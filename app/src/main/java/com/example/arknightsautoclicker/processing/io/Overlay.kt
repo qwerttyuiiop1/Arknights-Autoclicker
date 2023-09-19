@@ -3,12 +3,12 @@ package com.example.arknightsautoclicker.processing.io
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.view.View
-import com.example.arknightsautoclicker.processing.components.Pixel
-import com.example.arknightsautoclicker.processing.components.a
-import com.example.arknightsautoclicker.processing.components.b
-import com.example.arknightsautoclicker.processing.components.clamped
-import com.example.arknightsautoclicker.processing.components.g
-import com.example.arknightsautoclicker.processing.components.r
+import com.example.arknightsautoclicker.components.Pixel
+import com.example.arknightsautoclicker.components.a
+import com.example.arknightsautoclicker.components.b
+import com.example.arknightsautoclicker.components.clamped
+import com.example.arknightsautoclicker.components.g
+import com.example.arknightsautoclicker.components.r
 import com.example.arknightsautoclicker.processing.ext.toBitmap
 
 interface Preprocess {

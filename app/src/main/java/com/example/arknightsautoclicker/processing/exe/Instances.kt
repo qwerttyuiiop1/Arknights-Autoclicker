@@ -16,7 +16,7 @@ open class MultiInstance<T>(
     val tasks: List<TaskInstance<out T>>
 ): Instance<ResList<T>>() {
     override suspend fun run(): MyResult<ResList<T>> {
-        tasks.map { it.start(ctx) }
+        tasks.map { it.start(scope) }
         val results = MutableList<MyResult<out T>?>(tasks.size) { null }
         var tasks = tasks.mapIndexed { i, it ->
             i to it
@@ -24,7 +24,7 @@ open class MultiInstance<T>(
         while (true) {
             awaitTick()
             val list = tasks.map { (_, task) ->
-                ctx.async {
+                scope.async {
                     val res = task.awaitResult()
                     res ?: task.nextTick(tick)
                     res
@@ -68,7 +68,7 @@ open class ChainedInstance<T>(
         awaitTick()
         val results = MutableList<MyResult<out T>?>(tasks.size) { null }
         tasks.forEachIndexed { i, it ->
-            val res = ctx.tryJoin(it)
+            val res = scope.tryJoin(it)
             results[i] = res
             if (res !is MyResult.Success)
                 return MyResult.Fail(results)

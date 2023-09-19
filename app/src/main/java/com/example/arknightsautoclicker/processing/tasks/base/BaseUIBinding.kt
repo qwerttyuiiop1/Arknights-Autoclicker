@@ -2,11 +2,11 @@ package com.example.arknightsautoclicker.processing.tasks.base
 
 import android.graphics.Bitmap
 import android.graphics.Rect
-import com.example.arknightsautoclicker.processing.components.Button
-import com.example.arknightsautoclicker.processing.components.TextArea
-import com.example.arknightsautoclicker.processing.components.TextButton
-import com.example.arknightsautoclicker.processing.components.UIGroup
-import com.example.arknightsautoclicker.processing.components.similarTo
+import com.example.arknightsautoclicker.components.ui.UIButton
+import com.example.arknightsautoclicker.components.ui.TextArea
+import com.example.arknightsautoclicker.components.ui.TextButton
+import com.example.arknightsautoclicker.components.UIGroup
+import com.example.arknightsautoclicker.components.similarTo
 import com.example.arknightsautoclicker.processing.io.Clicker
 import com.example.arknightsautoclicker.processing.io.TextRecognizer
 
@@ -28,7 +28,7 @@ class BaseUIBinding(
         Rect(715, 50, 855, 90), recognizer
     ).apply { label = setOf("Overview") }
 
-    inner class ClaimLabel(y: Int): Button by Button(
+    inner class ClaimLabel(y: Int): UIButton by UIButton(
         Rect(2242, y, 2400, y + 65),
         clicker,
     ) {

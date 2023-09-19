@@ -6,7 +6,7 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Rect
-import com.example.arknightsautoclicker.processing.components.RecyclableBitmap
+import com.example.arknightsautoclicker.components.RecyclableBitmap
 
 fun Bitmap.cropped(rect: Rect, recycle: Boolean = false): Bitmap {
     return Bitmap.createBitmap(

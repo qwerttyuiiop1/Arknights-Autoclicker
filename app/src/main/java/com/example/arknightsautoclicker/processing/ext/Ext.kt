@@ -7,7 +7,7 @@ import android.graphics.Canvas
 import android.graphics.PixelFormat
 import android.media.Image
 import android.view.View
-import com.example.arknightsautoclicker.processing.components.RecyclableBitmap
+import com.example.arknightsautoclicker.components.RecyclableBitmap
 import com.google.mlkit.vision.text.Text
 
 fun Image.rgbaToBitmap(): Bitmap {

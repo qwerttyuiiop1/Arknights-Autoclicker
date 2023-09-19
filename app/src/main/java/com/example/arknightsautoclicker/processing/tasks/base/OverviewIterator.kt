@@ -1,7 +1,7 @@
 package com.example.arknightsautoclicker.processing.tasks.base
 
 import android.graphics.Rect
-import com.example.arknightsautoclicker.processing.components.MTextArea
+import com.example.arknightsautoclicker.components.ui.MTextArea
 import com.example.arknightsautoclicker.processing.exe.Instance
 import com.example.arknightsautoclicker.processing.exe.MyResult
 import com.example.arknightsautoclicker.processing.exe.TaskInstance

@@ -2,9 +2,9 @@ package com.example.arknightsautoclicker.processing.tasks.base
 
 import android.graphics.Bitmap
 import android.graphics.Rect
-import com.example.arknightsautoclicker.processing.components.SwipeArea
-import com.example.arknightsautoclicker.processing.components.UIElement
-import com.example.arknightsautoclicker.processing.components.similarTo
+import com.example.arknightsautoclicker.components.ui.SwipeArea
+import com.example.arknightsautoclicker.components.UIElement
+import com.example.arknightsautoclicker.components.similarTo
 import com.example.arknightsautoclicker.processing.exe.Instance
 import com.example.arknightsautoclicker.processing.exe.MyResult
 import com.example.arknightsautoclicker.processing.exe.TaskInstance

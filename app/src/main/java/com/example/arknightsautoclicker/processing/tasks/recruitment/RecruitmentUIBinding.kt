@@ -4,14 +4,14 @@ package com.example.arknightsautoclicker.processing.tasks.recruitment
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Rect
-import com.example.arknightsautoclicker.processing.components.Button
-import com.example.arknightsautoclicker.processing.components.TextArea
-import com.example.arknightsautoclicker.processing.components.TextButton
-import com.example.arknightsautoclicker.processing.components.UIGroup
-import com.example.arknightsautoclicker.processing.components.b
-import com.example.arknightsautoclicker.processing.components.g
-import com.example.arknightsautoclicker.processing.components.r
-import com.example.arknightsautoclicker.processing.components.similarTo
+import com.example.arknightsautoclicker.components.ui.UIButton
+import com.example.arknightsautoclicker.components.ui.TextArea
+import com.example.arknightsautoclicker.components.ui.TextButton
+import com.example.arknightsautoclicker.components.UIGroup
+import com.example.arknightsautoclicker.components.b
+import com.example.arknightsautoclicker.components.g
+import com.example.arknightsautoclicker.components.r
+import com.example.arknightsautoclicker.components.similarTo
 import com.example.arknightsautoclicker.processing.io.Clicker
 import com.example.arknightsautoclicker.processing.io.TextRecognizer
 
@@ -54,19 +54,19 @@ class RecruitmentUIBinding(
             recognizer,
             scale = 0.5f
         )
-        val increaseHoursBtn = Button(
+        val increaseHoursBtn = UIButton(
             Rect(807, 189, 1023, 261),
             clicker
         )
-        val decreaseHoursBtn = Button(
+        val decreaseHoursBtn = UIButton(
             Rect(807, 409, 1023, 482),
             clicker
         )
-        val increaseMinsBtn = Button(
+        val increaseMinsBtn = UIButton(
             Rect(1053, 189, 1271, 261),
             clicker
         )
-        val decreaseMinsBtn = Button(
+        val decreaseMinsBtn = UIButton(
             Rect(1053, 409, 1271, 482),
             clicker
         )
@@ -89,11 +89,11 @@ class RecruitmentUIBinding(
             clickArea = Rect(1660, 575, 1730, 645)
         ).apply { label = setOf("Tap", "To", "Refresh") }
 
-        val confirmBtn = Button(
+        val confirmBtn = UIButton(
             Rect(1570, 834, 1847, 911),
             clicker
         )
-        val cancelBtn = Button(
+        val cancelBtn = UIButton(
             Rect(1570, 932, 1847, 1009),
             clicker
         )
@@ -159,7 +159,7 @@ class RecruitmentUIBinding(
     }
 
     inner class OtherGroup : UIGroup {
-        val skipBtn = Button(
+        val skipBtn = UIButton(
             Rect(2244, 15, 2383, 115),
             clicker
         )

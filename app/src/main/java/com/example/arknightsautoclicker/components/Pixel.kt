@@ -1,5 +1,5 @@
 @file:Suppress("unused")
-package com.example.arknightsautoclicker.processing.components
+package com.example.arknightsautoclicker.components
 
 // creating actual objects is expensive and looks ugly
 // especially for calculations repeated a lot of times

@@ -1,69 +1,44 @@
-package com.example.arknightsautoclicker.processing.components
+package com.example.arknightsautoclicker.components.impl
 
 import android.graphics.Bitmap
 import android.graphics.Rect
-import com.example.arknightsautoclicker.processing.components.TextArea.Companion.getDefaultScale
-import com.example.arknightsautoclicker.processing.io.TextRecognizer
+import android.widget.TextView
+import com.example.arknightsautoclicker.components.ui.MTextArea
+import com.example.arknightsautoclicker.components.RecyclableBitmap
+import com.example.arknightsautoclicker.components.ui.TextArea.Companion.getDefaultScale
+import com.example.arknightsautoclicker.components.UIContext
+import com.example.arknightsautoclicker.components.UIElement
+import com.example.arknightsautoclicker.components.rect
+import com.example.arknightsautoclicker.components.views.TextAreaView
 import com.example.arknightsautoclicker.processing.ext.cropped
 import com.example.arknightsautoclicker.processing.ext.flatten
 import com.example.arknightsautoclicker.processing.ext.scaled
+import com.example.arknightsautoclicker.processing.io.TextRecognizer
 import com.google.mlkit.vision.text.Text
-import kotlin.math.max
-import kotlin.math.min
-
-interface TextArea {
-    companion object {
-        const val DEFAULT_SCALE_FACTOR = 0.5f
-        fun getDefaultScale(rect: Rect): Float {
-            return max(
-                DEFAULT_SCALE_FACTOR,
-                36f / min(rect.width(), rect.height())
-            )
-        }
-        operator fun invoke(
-            rect: Rect,
-            recognizer: TextRecognizer,
-            scale: Float = getDefaultScale(rect)
-        ): TextArea = MTextAreaImpl(
-            rect, recognizer, scale
-        )
-    }
-    val area: Rect
-    val recognizer: TextRecognizer
-    val scale: Float
-    /**
-     * the label of the button
-     * the button is recognized if all of
-     * the strings in this set are found in the text
-     */
-    var label: Set<String>?
-    suspend fun getText(full: Bitmap): Text
-    suspend fun matchesLabel(full: Bitmap): Boolean
-    fun matchesLabel(text: Text): Boolean
-}
-interface MTextArea: TextArea {
-    companion object {
-        operator fun invoke(
-            rect: Rect,
-            recognizer: TextRecognizer,
-            scale: Float = getDefaultScale(rect)
-        ): MTextArea = MTextAreaImpl(
-            rect, recognizer, scale
-        )
-    }
-    fun setPos(x: Int, y: Int)
-    fun setRect(r: Rect)
-    fun reset()
-}
 
 open class MTextAreaImpl(
     final override val area: Rect,
     override val recognizer: TextRecognizer,
-    override val scale: Float = getDefaultScale(area)
+    override val scale: Float = getDefaultScale(area),
+    label: Set<String>? = null
 ): MTextArea, UIElement {
+    constructor(
+        v: TextView, ctx: UIContext, scale: Float? = null
+    ): this(
+        v.rect,
+        ctx.recognizer,
+        scale ?: getDefaultScale(v.rect),
+        v.text.let {
+            if (it == null || it == "") null
+            else it.split(",").toSet()
+        }
+    )
+    constructor(
+        v: TextAreaView, ctx: UIContext
+    ): this(v, ctx, v.scale)
+
     private val orig = Rect(area)
     protected val cropped = RecyclableBitmap(area.width(), area.height())
-
     protected val scaled = RecyclableBitmap(area.width(), area.height())
 
     protected fun getCropped(bitmap: Bitmap): Bitmap {
@@ -76,7 +51,7 @@ open class MTextAreaImpl(
         return recognizer.getText(scaled.get())
     }
 
-    override var label: Set<String>? = null
+    override var label: Set<String>? = label
         set(value) {
             if (value == null) throw IllegalArgumentException("Text cannot be null")
             if (field != null) throw IllegalStateException("Text already set")

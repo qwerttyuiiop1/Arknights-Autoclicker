@@ -2,11 +2,11 @@ package com.example.arknightsautoclicker.processing.tasks.base
 
 import android.graphics.Bitmap
 import android.graphics.Rect
-import com.example.arknightsautoclicker.processing.components.MButtonImpl
-import com.example.arknightsautoclicker.processing.components.MTextArea
-import com.example.arknightsautoclicker.processing.components.TextArea
-import com.example.arknightsautoclicker.processing.components.UIGroup
-import com.example.arknightsautoclicker.processing.components.similarTo
+import com.example.arknightsautoclicker.components.impl.MButtonImpl
+import com.example.arknightsautoclicker.components.ui.MTextArea
+import com.example.arknightsautoclicker.components.ui.TextArea
+import com.example.arknightsautoclicker.components.UIGroup
+import com.example.arknightsautoclicker.components.similarTo
 import com.example.arknightsautoclicker.processing.io.Clicker
 import com.example.arknightsautoclicker.processing.io.TextRecognizer
 

@@ -1,4 +1,4 @@
-package com.example.arknightsautoclicker.processing.components
+package com.example.arknightsautoclicker.components
 
 import android.graphics.Bitmap
 import kotlin.reflect.KProperty

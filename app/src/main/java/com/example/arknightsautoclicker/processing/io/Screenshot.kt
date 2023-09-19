@@ -17,7 +17,7 @@ import android.media.projection.MediaProjectionManager
 import android.view.WindowManager
 import android.view.WindowMetrics
 import com.example.arknightsautoclicker.andorid.AutoclickService
-import com.example.arknightsautoclicker.processing.components.RecyclableBitmap
+import com.example.arknightsautoclicker.components.RecyclableBitmap
 import com.example.arknightsautoclicker.processing.ext.rgbaToBitmap
 
 /**
