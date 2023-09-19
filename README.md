@@ -82,10 +82,8 @@ If you encounter any bugs, please report them in the issues tab. Please include 
 
 ## TODO
 - [ ] remove click on overlay
-- [ ] add support for screen sizes other than 2400 x 1080
 - [ ] ~~add support for split screen~~
 - [ ] some way to update the tag combinations
-- [ ] code cleanup (ongoing)
 
 ## Credits
 * ML kit: https://developers.google.com/ml-kit/vision/text-recognition/android
