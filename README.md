@@ -84,6 +84,8 @@ If you encounter any bugs, please report them in the issues tab. Please include 
 - [ ] remove click on overlay
 - [ ] ~~add support for split screen~~
 - [ ] some way to update the tag combinations
+- [ ] test on screen sizes other than 1080 x 2400
+- [ ] fix bug on captured bitmap having padding
 
 ## Credits
 * ML kit: https://developers.google.com/ml-kit/vision/text-recognition/android
