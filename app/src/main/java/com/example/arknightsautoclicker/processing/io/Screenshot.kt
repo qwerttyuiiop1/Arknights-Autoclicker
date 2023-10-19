@@ -8,17 +8,22 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Bitmap
 import android.graphics.PixelFormat
+import android.graphics.Point
+import android.graphics.Rect
 import android.hardware.display.DisplayManager
 import android.hardware.display.VirtualDisplay
 import android.media.Image
 import android.media.ImageReader
 import android.media.projection.MediaProjection
 import android.media.projection.MediaProjectionManager
+import android.os.Build
+import android.util.DisplayMetrics
+import android.view.Display
 import android.view.WindowManager
-import android.view.WindowMetrics
 import com.example.arknightsautoclicker.andorid.AutoclickService
 import com.example.arknightsautoclicker.components.RecyclableBitmap
 import com.example.arknightsautoclicker.processing.ext.rgbaToBitmap
+
 
 /**
  * class for taking screenshots, automatically handles configuration changes
@@ -61,6 +66,40 @@ class Screenshot(
             return b
         }
 
+    private val screenSize: Rect
+        get() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            windowManager.maximumWindowMetrics.bounds
+            /**
+             *  final WindowMetrics metrics = windowManager.getCurrentWindowMetrics();
+            // Gets all excluding insets
+            final WindowInsets windowInsets = metrics.getWindowInsets();
+            Insets insets = windowInsets.getInsetsIgnoringVisibility(WindowInsets.Type.navigationBars()
+            | WindowInsets.Type.displayCutout());
+
+            int insetsWidth = insets.right + insets.left;
+            int insetsHeight = insets.top + insets.bottom;
+
+            // Legacy size that Display#getSize reports
+            final Rect bounds = metrics.getBounds();
+            final Size legacySize = new Size(bounds.width() - insetsWidth,
+            bounds.height() - insetsHeight);
+            Returns
+             */
+        } else {
+            val metrics = DisplayMetrics()
+            @Suppress("DEPRECATION")
+            windowManager.defaultDisplay.getMetrics(metrics)
+            // https://stackoverflow.com/a/15699681
+            try {
+                val size = Point()
+                Display::class.java.getMethod("getRealSize", Point::class.java)
+                    .invoke(metrics, size)
+                Rect(0, 0, size.x, size.y)
+            } catch (e: Exception) {
+                Rect(0, 0, metrics.widthPixels, metrics.heightPixels)
+            }
+        }
+
     init {
         mediaProjectionManager =
             context.getSystemService(MediaProjectionManager::class.java)
@@ -75,20 +114,20 @@ class Screenshot(
         configChangeReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
                 if (intent.action == Intent.ACTION_CONFIGURATION_CHANGED)
-                    configureVirtualDisplay(windowManager.maximumWindowMetrics)
+                    configureVirtualDisplay(screenSize)
             }
         }
         context.registerReceiver(configChangeReceiver, intentFilter)
 
-        configureVirtualDisplay(windowManager.maximumWindowMetrics)
+        configureVirtualDisplay(screenSize)
     }
 
-    fun configureVirtualDisplay(metrics: WindowMetrics) {
+    fun configureVirtualDisplay(screen: Rect) {
         virtualDisplay?.release()
         imageReader?.close()
 
-        width = metrics.bounds.width()
-        height = metrics.bounds.height()
+        width = screen.width()
+        height = screen.height()
 
         // ??? ImageFormat.YUV_420_888
         @SuppressLint("WrongConstant")
